@@ -19,10 +19,18 @@
       },
       {
         "step": "Loading Lighting",
-        "progress": 70
+        "progress": 60
       },
       {
         "step": "Loading Animation",
+        "progress": 75
+      },
+      {
+        "step": "Loading Controls",
+        "progress": 80
+      },
+      {
+        "step": "Loading Event Listeners",
         "progress": 85
       },
       {

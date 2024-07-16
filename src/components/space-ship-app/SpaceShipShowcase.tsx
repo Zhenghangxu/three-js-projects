@@ -123,17 +123,14 @@ export default function SpaceShipShowcase(props: IAppProps) {
           animation,
           axisHelper: false,
         });
+        setLoadingProgress(LoadingObject[6]);
+
         // find by name in array of objects
         mesh.position.x = HomePlanetObject?.objectPosition.x || 0;
         mesh.position.z = HomePlanetObject?.objectPosition.z || 0;
         mesh.position.y = HomePlanetObject?.objectPosition.y || 0;
 
-        // After this, the scene is rendered
-        setIsInited(true);
         const { renderer } = renderInstance;
-
-        // TODO: mechanism to mount and unmout mesh
-        (window as any).activeMesh = mesh;
 
         // await for 1s
         await new Promise<void>((resolve) => {
@@ -151,7 +148,6 @@ export default function SpaceShipShowcase(props: IAppProps) {
           camera.aspect = width / height;
           camera.updateProjectionMatrix();
         });
-
         const calculateMeshRotation = (event: MouseEvent) => {
           if ((window as any).lastMouseX) {
             const diff = (window as any).lastMouseX - event.clientX;
@@ -185,8 +181,9 @@ export default function SpaceShipShowcase(props: IAppProps) {
             }
           }
         );
+        setLoadingProgress(LoadingObject[7]);
+        setIsInited(true);
       })();
-      //  cube map background
     }
   }, [isInited]);
 
