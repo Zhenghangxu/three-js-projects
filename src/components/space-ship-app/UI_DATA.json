@@ -1,0 +1,73 @@
+{
+  "2D": {
+    "LOGO": {
+      "logoPath": "src/assets/logo.png",
+      "logoAlt": "Space Ship Logo"
+    },
+
+    "Navigation": [
+      {
+        "icon": "solar:star-circle-bold",
+        "title": "Home"
+      },
+      {
+        "icon": "mdi:earth",
+        "title": "Terra"
+      },
+      {
+        "icon": "hugeicons:moon",
+        "title": "Luna"
+      },
+      {
+        "icon": "hugeicons:jupiter",
+        "title": "Jupiter"
+      }
+    ]
+  },
+  "3D": [
+    {
+      "objectName": "Earth",
+      "objectType": "planet",
+      "objectTexturePath": "src/assets/earth.jpg",
+      "objectSize": 1,
+      "objectPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "copies": {
+        "header": "<h1>Earth</h1>",
+        "description": "<p>Earth is the third planet from the Sun and the only astronomical object known to harbor life. According to radiometric dating and other sources of evidence, Earth formed over 4.5 billion years ago. Earth's gravity interacts with other objects in space, especially the Sun and the Moon, which is Earth's only natural satellite. Earth orbits around the Sun in 365.256 days, a period known as an Earth year. During this time, Earth rotates about its axis about 366.256 times.</p>"
+      }
+    },
+    {
+      "objectName": "HomePlanet",
+      "objectType": "planet",
+      "objectTexturePath": "src/assets/earth.jpg",
+      "objectSize": 1,
+      "objectPosition": {
+        "x": 30,
+        "y": -5,
+        "z": -3
+      },
+      "copies": {
+        "header": "<h1>Earth</h1>",
+        "description": "<p>Earth is the third planet from the Sun and the only astronomical object known to harbor life. According to radiometric dating and other sources of evidence, Earth formed over 4.5 billion years ago. Earth's gravity interacts with other objects in space, especially the Sun and the Moon, which is Earth's only natural satellite. Earth orbits around the Sun in 365.256 days, a period known as an Earth year. During this time, Earth rotates about its axis about 366.256 times.</p>"
+      }
+    },
+    {
+      "objectName": "Camera",
+      "objectType": "camera",
+      "objectSize": 1,
+      "objectPosition": {
+        "x": 0,
+        "y": 20,
+        "z": -50
+      },
+      "copies": {
+        "header": "<h1>Earth</h1>",
+        "description": "<p>Earth is the third planet from the Sun and the only astronomical object known to harbor life. According to radiometric dating and other sources of evidence, Earth formed over 4.5 billion years ago. Earth's gravity interacts with other objects in space, especially the Sun and the Moon, which is Earth's only natural satellite. Earth orbits around the Sun in 365.256 days, a period known as an Earth year. During this time, Earth rotates about its axis about 366.256 times.</p>"
+      }
+    }
+  ]
+}
