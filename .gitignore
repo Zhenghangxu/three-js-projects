@@ -12,9 +12,6 @@
 /build
 /dist
 
-# asset
-/src/asset
-
 # misc
 .DS_Store
 .env.local
