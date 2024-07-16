@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import Stats from "three/examples/jsm/libs/stats.module.js";
-import { ArcballControls } from "three/examples/jsm/controls/ArcballControls";
+import {ArcballControls} from "three/examples/jsm/controls/ArcballControls.js";
 import TWEEN from "@tweenjs/tween.js";
 import { GUI } from "dat.gui";
 
