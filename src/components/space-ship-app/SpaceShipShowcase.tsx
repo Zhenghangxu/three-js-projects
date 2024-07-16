@@ -22,7 +22,6 @@ import { onDocumentMouseMove } from "./util/camera/camera";
 // add a loading screen
 // deploy to netlify
 
-
 // loader
 import { loadTexture } from "./util/texture/loadTexture";
 
@@ -45,6 +44,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
     x: 0,
     y: 0,
   });
+  const [loadingProgress, setLoadingProgress] = useState<any>({});
   useEffect(() => {
     if (canvasRef.current && !isInited) {
       const canvas = canvasRef.current;
@@ -58,14 +58,17 @@ export default function SpaceShipShowcase(props: IAppProps) {
       const LightingObject = UI_DATA["3D"].find(
         (item) => item.objectName === "Sunlight"
       );
+      const LoadingObject = UI_DATA["2D"].Loader;
 
       const scene = new THREE.Scene();
       (async function () {
+        setLoadingProgress(LoadingObject[0]);
         const texture = await loadTexture(
           [moonRight, moonLeft, moonTop, moonBottom, moonFront, moonBack],
           "cube"
         );
         scene.background = texture;
+        setLoadingProgress(LoadingObject[1]);
         const width = window.innerWidth;
         const height = window.innerHeight;
         const camera = new THREE.PerspectiveCamera(
@@ -78,13 +81,14 @@ export default function SpaceShipShowcase(props: IAppProps) {
         camera.position.x = CameraObject?.objectPosition.x || 0;
         camera.position.y = CameraObject?.objectPosition.y || 0;
         camera.lookAt(0, 0, 0);
+        setLoadingProgress(LoadingObject[2]);
 
         // import mesh
         const mesh = await HomePlanet();
         // Moon: -117,-25,-8
         // Earth: -30,84,-71
         // Jup: 30,-45,-180
-
+        setLoadingProgress(LoadingObject[3]);
         // camera lookat => subtract 10 from z
         // light directly from the back, also ambient light
         const light = new THREE.DirectionalLight(0xffffff, 15);
@@ -96,6 +100,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
         );
         // const ambientLight = new THREE.AmbientLight(0xffffff, 5);
         scene.add(light);
+        setLoadingProgress(LoadingObject[4]);
         // scene.add(ambientLight);
         //   mouse pointer anitmation
         let angle = 0;
@@ -105,6 +110,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
           mesh.children[1].rotation.y += 0.001;
         };
         // mesh.position.y = 12;
+        setLoadingProgress(LoadingObject[5]);
         const renderInstance = await initThree({
           scene,
           camera,
@@ -198,14 +204,38 @@ export default function SpaceShipShowcase(props: IAppProps) {
               ref={mouseInteractionAreaRef}
             >
               <div className="p-3 bg-transparent overlay-column">
-                <div className="bottom-left pe-none">
-                  <div className="d-flex text-light flex-column align-items-end justify-content-start gap-2">
-                    <h4 className="fw-bold fs-3 mb-0 pb-0 ">Alpha Centari </h4>
-                    <span className="text-light fs-6 pe-all">
-                      4.36 light years away
-                    </span>
+                {!isInited && (
+                  <div className="loader-container gap-3">
+                    <div className="loader arrow me-3">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <div className="d-flex flex-column align-items-start">
+                      <p className="loading-progress fs-3 text-light fw-bold mb-0 glow-text-weak textured-text">
+                        {loadingProgress?.progress}%
+                      </p>
+                      <p className="loadingText mb-0 fs-4 text-light textured-text glow-text-weak">
+                        {loadingProgress?.step}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
+                {isInited && (
+                  <div className="bottom-left pe-none">
+                    <div className="d-flex text-light flex-column align-items-end justify-content-start gap-2">
+                      <h4 className="fw-bold fs-3 mb-0 pb-0 ">
+                        Alpha Centari{" "}
+                      </h4>
+                      <span className="text-light fs-6 pe-all">
+                        4.36 light years away
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <div className="col-md-6 col-12">

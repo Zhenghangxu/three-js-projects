@@ -4,6 +4,32 @@
       "logoPath": "src/assets/logo.png",
       "logoAlt": "Space Ship Logo"
     },
+    "Loader":[
+      {
+        "step": "Loading Background Asset",
+        "progress": 10
+      },
+      {
+        "step": "Loading Camera",
+        "progress": 25
+      },
+      {
+        "step": "Loading Meshes and Texture",
+        "progress": 50
+      },
+      {
+        "step": "Loading Lighting",
+        "progress": 70
+      },
+      {
+        "step": "Loading Animation",
+        "progress": 85
+      },
+      {
+        "step": "Preparing Scene",
+        "progress": 90
+      }
+    ],
 
     "Navigation": [
       {
