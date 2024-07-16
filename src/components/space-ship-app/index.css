@@ -261,8 +261,5 @@ nav a {
 }
 
 .cursor-hand {
-  cursor:grab;
-}
-.cursor-grabbing {
-  cursor:grabbing !important;
+  cursor:url("../../asset/UI/hand.svg"), grab;
 }

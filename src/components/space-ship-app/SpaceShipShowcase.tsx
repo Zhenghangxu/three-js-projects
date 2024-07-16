@@ -15,6 +15,13 @@ import UI_DATA from "./UI_DATA.json";
 // import { AtomModel } from "./util/model/Atom";
 import { HomePlanet } from "./util/model/PlanetHome";
 import { onDocumentMouseMove } from "./util/camera/camera";
+// TODO: Build Task
+// change the favicon
+// change the title
+// optimize the image
+// add a loading screen
+// deploy to netlify
+
 
 // loader
 import { loadTexture } from "./util/texture/loadTexture";
@@ -105,10 +112,10 @@ export default function SpaceShipShowcase(props: IAppProps) {
           width,
           height,
           mesh,
-          showPerformance: true,
+          showPerformance: false,
           RotateControls: false,
           animation,
-          axisHelper: true,
+          axisHelper: false,
         });
         // find by name in array of objects
         mesh.position.x = HomePlanetObject?.objectPosition.x || 0;
@@ -154,7 +161,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
             return;
           }
           const { x, y } = onDocumentMouseMove(event);
-          camera.lookAt(x * 3, y * 3, 0);
+          camera.lookAt(x * 7, y * 7, 0);
           setMouseMoveCoordinate({ x, y });
         });
 
@@ -162,7 +169,6 @@ export default function SpaceShipShowcase(props: IAppProps) {
           "mousemove",
           async (event) => {
             if (event.buttons === 1) {
-              mouseInteractionAreaRef.current?.classList.add("cursor-grabbing");
               (window as any).lastMouseX = event.clientX;
               await new Promise<void>((resolve) => {
                 setTimeout(() => {
@@ -173,9 +179,6 @@ export default function SpaceShipShowcase(props: IAppProps) {
             }
           }
         );
-        mouseInteractionAreaRef.current?.addEventListener("mouseup", () => {
-          mouseInteractionAreaRef.current?.classList.remove("cursor-grabbing");
-        });
       })();
       //  cube map background
     }
