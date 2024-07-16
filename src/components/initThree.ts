@@ -1,10 +1,10 @@
 import * as THREE from "three";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { ArcballControls } from "three/examples/jsm/controls/ArcballControls";
-
+import TWEEN from "@tweenjs/tween.js";
 import { GUI } from "dat.gui";
 
-export const initThree = ({
+export const initThree = async ({
   camera,
   scene,
   canvas,
@@ -46,6 +46,7 @@ export const initThree = ({
   }
   function animate() {
     requestAnimationFrame(animate);
+    TWEEN.update();
     if (animation) {
       animation();
     }

@@ -42,7 +42,7 @@
 }
 
 .first-load-animation {
-  animation: stage-light-fade-in 300ms ease-in-out;
+  animation: stage-light-fade-in 3s ease-in-out;
   /* bezier */
   background: radial-gradient(
     71.6% 129.97% at 28.4% 50%,
@@ -255,4 +255,14 @@ nav a {
 
 .pe-all {
   pointer-events: all;
+}
+.pe-none {
+  pointer-events: none;
+}
+
+.cursor-hand {
+  cursor:grab;
+}
+.cursor-grabbing {
+  cursor:grabbing !important;
 }

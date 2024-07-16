@@ -22,20 +22,24 @@ import { loadTexture } from "./util/texture/loadTexture";
 // content blocks
 import HomeHeader from "./pages/home-headline";
 
+// Animation
+import {
+  AnimateZMoveHP,
+  AnimationRotateY,
+} from "./util/animation/home-planet-animation";
+
 export interface IAppProps {}
 
 export default function SpaceShipShowcase(props: IAppProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
+  const mouseInteractionAreaRef = useRef<HTMLDivElement>(null);
   const [isInited, setIsInited] = useState(false);
-  const [enableMouseParallax, setEnableMouseParallax] = useState(true);
   const [mouseMoveCoordinate, setMouseMoveCoordinate] = useState({
     x: 0,
     y: 0,
   });
-  const [mouseStartX, setMouseStartX] = useState<Number | null>(null);
   useEffect(() => {
     if (canvasRef.current && !isInited) {
-      console.log("canvasRef.current", canvasRef.current);
       const canvas = canvasRef.current;
       // Get Data
       const HomePlanetObject = UI_DATA["3D"].find(
@@ -44,6 +48,10 @@ export default function SpaceShipShowcase(props: IAppProps) {
       const CameraObject = UI_DATA["3D"].find(
         (item) => item.objectName === "Camera"
       );
+      const LightingObject = UI_DATA["3D"].find(
+        (item) => item.objectName === "Sunlight"
+      );
+
       const scene = new THREE.Scene();
       (async function () {
         const texture = await loadTexture(
@@ -66,9 +74,6 @@ export default function SpaceShipShowcase(props: IAppProps) {
 
         // import mesh
         const mesh = await HomePlanet();
-        // Atom Light, sun yellow
-        // const atomLight = new THREE.PointLight(0xffffff, 500, 1000, 0);
-        // atomLight.position.set(0, 0, -1000);
         // Moon: -117,-25,-8
         // Earth: -30,84,-71
         // Jup: 30,-45,-180
@@ -77,7 +82,11 @@ export default function SpaceShipShowcase(props: IAppProps) {
         // light directly from the back, also ambient light
         const light = new THREE.DirectionalLight(0xffffff, 15);
         // light.position.set(0, 0, -30);
-        light.position.set(-30, 5, 30);
+        light.position.set(
+          LightingObject?.objectPosition.x || 0,
+          LightingObject?.objectPosition.y || 0,
+          LightingObject?.objectPosition.z || 0
+        );
         // const ambientLight = new THREE.AmbientLight(0xffffff, 5);
         scene.add(light);
         // scene.add(ambientLight);
@@ -88,12 +97,8 @@ export default function SpaceShipShowcase(props: IAppProps) {
           mesh.children[0].rotation.y += 0.0004;
           mesh.children[1].rotation.y += 0.001;
         };
-        // find by name in array of objects
-        mesh.position.x = HomePlanetObject?.objectPosition.x || 0;
-        mesh.position.z = HomePlanetObject?.objectPosition.z || 0;
-        mesh.position.y = HomePlanetObject?.objectPosition.y || 0;
         // mesh.position.y = 12;
-        const renderInstance = initThree({
+        const renderInstance = await initThree({
           scene,
           camera,
           canvas,
@@ -105,9 +110,27 @@ export default function SpaceShipShowcase(props: IAppProps) {
           animation,
           axisHelper: true,
         });
+        // find by name in array of objects
+        mesh.position.x = HomePlanetObject?.objectPosition.x || 0;
+        mesh.position.z = HomePlanetObject?.objectPosition.z || 0;
+        mesh.position.y = HomePlanetObject?.objectPosition.y || 0;
+
         // After this, the scene is rendered
         setIsInited(true);
-        const { renderer, controls } = renderInstance;
+        const { renderer } = renderInstance;
+
+        // TODO: mechanism to mount and unmout mesh
+        (window as any).activeMesh = mesh;
+
+        // await for 1s
+        await new Promise<void>((resolve) => {
+          setTimeout(() => {
+            AnimateZMoveHP(mesh, -28);
+            AnimationRotateY(mesh, Math.PI * 0.3);
+          }, 200);
+          resolve();
+        });
+
         window.addEventListener("resize", () => {
           const width = window.innerWidth;
           const height = window.innerHeight;
@@ -115,34 +138,49 @@ export default function SpaceShipShowcase(props: IAppProps) {
           camera.aspect = width / height;
           camera.updateProjectionMatrix();
         });
-        controls?.target.set(
-          HomePlanetObject?.objectPosition.x as number,
-          HomePlanetObject?.objectPosition.y as number,
-          HomePlanetObject?.objectPosition.z as number
-        );
+
+        const calculateMeshRotation = (event: MouseEvent) => {
+          if ((window as any).lastMouseX) {
+            const diff = (window as any).lastMouseX - event.clientX;
+            if (mesh) {
+              mesh.rotation.y += diff / 1000;
+            }
+          }
+        };
+
         document.addEventListener("mousemove", (event) => {
-          if (enableMouseParallax === false || event.buttons === 1) {
+          if (event.buttons === 1) {
+            // reject mouse move if mouse is hold down
             return;
           }
-          // reject mouse move if mouse is hold down
           const { x, y } = onDocumentMouseMove(event);
           camera.lookAt(x * 3, y * 3, 0);
           setMouseMoveCoordinate({ x, y });
         });
 
-        // document.addEventListener("mousedown", (event) => {
-        //   setEnableMouseParallax(false);
-        //   // get mouse coordinate
-        //   setMouseStartX(event.clientX);
-        // });
-
-        // document.addEventListener("mouseup", (event) => {
-        //   setMouseStartX(null);
-        // });
+        mouseInteractionAreaRef.current?.addEventListener(
+          "mousemove",
+          async (event) => {
+            if (event.buttons === 1) {
+              mouseInteractionAreaRef.current?.classList.add("cursor-grabbing");
+              (window as any).lastMouseX = event.clientX;
+              await new Promise<void>((resolve) => {
+                setTimeout(() => {
+                  resolve();
+                }, 100);
+              });
+              calculateMeshRotation(event);
+            }
+          }
+        );
+        mouseInteractionAreaRef.current?.addEventListener("mouseup", () => {
+          mouseInteractionAreaRef.current?.classList.remove("cursor-grabbing");
+        });
       })();
       //  cube map background
     }
   }, [isInited]);
+
   return (
     <section className="three-section">
       <div
@@ -152,9 +190,12 @@ export default function SpaceShipShowcase(props: IAppProps) {
         <NavBar logoOnly />
         <div className="container">
           <div className="row">
-            <div className="col-md-6 col-12">
+            <div
+              className="col-md-6 col-12 pe-all cursor-hand"
+              ref={mouseInteractionAreaRef}
+            >
               <div className="p-3 bg-transparent overlay-column">
-                <div className="bottom-left">
+                <div className="bottom-left pe-none">
                   <div className="d-flex text-light flex-column align-items-end justify-content-start gap-2">
                     <h4 className="fw-bold fs-3 mb-0 pb-0 ">Alpha Centari </h4>
                     <span className="text-light fs-6 pe-all">
