@@ -102,7 +102,7 @@
     {
       "objectName": "Sunlight",
       "objectType": "lighting",
-      "objectSize": 0,
+      "objectIntensity": 5,
       "objectPosition": {
         "x": -50,
         "y": 5,

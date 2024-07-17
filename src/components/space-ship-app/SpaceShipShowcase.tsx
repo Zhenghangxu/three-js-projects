@@ -3,17 +3,17 @@ import { useEffect, useRef, useState } from "react";
 import { initThree } from "../initThree";
 import * as THREE from "three";
 import "./index.css";
-import moonRight from "../../asset/moon/earth-right.png";
-import moonLeft from "../../asset/moon/earth-left.png";
-import moonTop from "../../asset/moon/earth-top.png";
-import moonBottom from "../../asset/moon/earth-bottom.png";
-import moonFront from "../../asset/moon/earth-front.png";
-import moonBack from "../../asset/moon/earth-back.png";
+import moonRight from "../../asset/skybox/skybox-right.png";
+import moonLeft from "../../asset/skybox/skybox-left.png";
+import moonTop from "../../asset/skybox/skybox-top.png";
+import moonBottom from "../../asset/skybox/skybox-bottom.png";
+import moonFront from "../../asset/skybox/skybox-front.png";
+import moonBack from "../../asset/skybox/skybox-back.png";
 import NavBar from "./NavBar";
 import NavItemBar from "./NavItemBar";
 import UI_DATA from "./UI_DATA.json";
 // import { AtomModel } from "./util/model/Atom";
-import { HomePlanet } from "./util/model/PlanetHome";
+import { Moon as HomePlanet } from "./util/model/Moon";
 import { onDocumentMouseMove } from "./util/camera/camera";
 // TODO: Build Task
 // change the favicon
@@ -72,7 +72,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
         const width = window.innerWidth;
         const height = window.innerHeight;
         const camera = new THREE.PerspectiveCamera(
-          75,
+          50,
           width / height,
           0.1,
           1000
@@ -91,7 +91,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
         setLoadingProgress(LoadingObject[3]);
         // camera lookat => subtract 10 from z
         // light directly from the back, also ambient light
-        const light = new THREE.DirectionalLight(0xffffff, 15);
+        const light = new THREE.DirectionalLight(0xffffff, LightingObject?.objectIntensity || 0);
         // light.position.set(0, 0, -30);
         light.position.set(
           LightingObject?.objectPosition.x || 0,
@@ -106,8 +106,8 @@ export default function SpaceShipShowcase(props: IAppProps) {
         let angle = 0;
         // cone: y => -12 to 12, x => -12 to 12
         const animation = () => {
-          mesh.children[0].rotation.y += 0.0004;
-          mesh.children[1].rotation.y += 0.001;
+          // mesh.children[0].rotation.y += 0.0004;
+          // mesh.children[1].rotation.y += 0.001;
         };
         // mesh.position.y = 12;
         setLoadingProgress(LoadingObject[5]);
@@ -225,11 +225,11 @@ export default function SpaceShipShowcase(props: IAppProps) {
                   <div className="bottom-left pe-none">
                     <div className="d-flex text-light flex-column align-items-end justify-content-start gap-2">
                       <h4 className="fw-bold fs-3 mb-0 pb-0 ">
-                        Alpha Centari{" "}
+                        Proxima Centauri B{" "}
                       </h4>
-                      <span className="text-light fs-6 pe-all">
-                        4.36 light years away
-                      </span>
+                      <a href="#" className="link-styled text-light fs-6 pe-all">
+                        Our 100 Year Vision
+                      </a>
                     </div>
                   </div>
                 )}
