@@ -27,7 +27,7 @@ export const HomePlanet = async (): Promise<THREE.Group> => {
   base.colorSpace = THREE.SRGBColorSpace;
   const material = new THREE.MeshStandardMaterial({
     map: base,
-    // roughness: 0.8,
+    roughness: 0.8,
     metalness: 0.1,
     roughnessMap: roughnessMap,
     metalnessMap: roughnessMap,

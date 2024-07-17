@@ -1,8 +1,26 @@
-@import url("https://fonts.googleapis.com/css2?family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
 :root {
   --blue: #2e5eaa;
   --text-glow-effect: 0 0 5px #fff;
+  --color-underlined: 155, 155, 155 ;
+}
+
+.p-text-regular {
+  -webkit-text-size-adjust: 100%;
+  font-family: "DM Sans";
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  color: var(--dark--text);
+  box-sizing: border-box;
+  margin-top: 0;
+  font-size: 1.125rem;
+  transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg)
+    rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+  transform-style: preserve-3d;
+  opacity: 1;
 }
 
 .three-section {
@@ -167,7 +185,6 @@ nav a {
 .hero-sub-title {
   color: #f3f3f3;
   font-size: 1.5rem;
-  font-family: Inter, Arial, Helvetica, sans-serif;
   padding-left: 0px;
   text-align: left;
   line-height: 2;
@@ -330,4 +347,34 @@ nav a {
   100% {
     opacity: 0;
   }
+}
+.link-styled {
+  position: relative;
+  display: inline-block;
+  line-height: 100%;
+  color: rgb(var(--color-underlined));
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+.link-styled::before {
+  content: "";
+  position: absolute;
+  bottom: -0.4em;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    to right,
+    rgb(var(--color-underlined)) 45%,
+    rgba(var(--color-underlined), 0.5) 65%
+  );
+  background-size: 220% 100%;
+  background-position: 100% 50%;
+  transition: 0.3s ease-out;
+}
+
+.link-styled:hover::before {
+  background-position: 0 50%;
 }
