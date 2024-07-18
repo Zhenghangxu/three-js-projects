@@ -27,15 +27,13 @@ export const HomePlanet = async (): Promise<THREE.Group> => {
   base.colorSpace = THREE.SRGBColorSpace;
   const material = new THREE.MeshStandardMaterial({
     map: base,
-    // roughness: 0.8,
+    roughness: 0.8,
     metalness: 0.1,
     roughnessMap: roughnessMap,
     metalnessMap: roughnessMap,
     normalMap: normalMap,
     normalScale: new THREE.Vector2(0.6, 0.6),
     // emit blue sky light
-    // emissive: new THREE.Color("#0000ff"),
-    // emissiveIntensity: 0.1,
   });
   console.log("material created", material);
 
@@ -65,7 +63,7 @@ export const HomePlanet = async (): Promise<THREE.Group> => {
   });
   const atmos = new THREE.Mesh(atmosGeo, atmosMat);
   const cloudsMesh = new THREE.Mesh(cloudGeo, cloudsMat);
-
+  cloudsMesh.castShadow = true;
   group.add(new THREE.Mesh(sphere, material));
   group.add(cloudsMesh);
   group.add(atmos);

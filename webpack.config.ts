@@ -6,6 +6,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
   },
+  devServer: {
+    host: '0.0.0.0',
+  },
   module: {
     rules: [
       {

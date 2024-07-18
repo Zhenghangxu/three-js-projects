@@ -18,15 +18,15 @@
         "progress": 50
       },
       {
-        "step": "Loading Lighting",
+        "step": "Loading Meshes and Texture",
         "progress": 60
       },
       {
-        "step": "Loading Animation",
+        "step": "Loading Meshes and Texture",
         "progress": 75
       },
       {
-        "step": "Loading Controls",
+        "step": "Loading Lighting",
         "progress": 80
       },
       {
@@ -80,9 +80,9 @@
       "objectTexturePath": "src/assets/earth.jpg",
       "objectSize": 1,
       "objectPosition": {
-        "x": 30,
-        "y": -5,
-        "z": 5
+        "x": 18,
+        "y": 0,
+        "z": 15
       },
       "copies": {
         "header": "<h1>Earth</h1>",
@@ -95,14 +95,14 @@
       "objectSize": 1,
       "objectPosition": {
         "x": 0,
-        "y": -3,
+        "y": -13,
         "z": -80
       }
     },
     {
       "objectName": "Sunlight",
       "objectType": "lighting",
-      "objectSize": 0,
+      "objectIntensity": 5,
       "objectPosition": {
         "x": -50,
         "y": 5,

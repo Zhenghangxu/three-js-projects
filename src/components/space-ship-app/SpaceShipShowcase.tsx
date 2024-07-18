@@ -3,17 +3,19 @@ import { useEffect, useRef, useState } from "react";
 import { initThree } from "../initThree";
 import * as THREE from "three";
 import "./index.css";
-import moonRight from "../../asset/moon/earth-right.png";
-import moonLeft from "../../asset/moon/earth-left.png";
-import moonTop from "../../asset/moon/earth-top.png";
-import moonBottom from "../../asset/moon/earth-bottom.png";
-import moonFront from "../../asset/moon/earth-front.png";
-import moonBack from "../../asset/moon/earth-back.png";
+import skyboxRight from "../../asset/skybox/skybox-right.png";
+import skyboxLeft from "../../asset/skybox/skybox-left.png";
+import skyboxTop from "../../asset/skybox/skybox-top.png";
+import skyboxBottom from "../../asset/skybox/skybox-bottom.png";
+import skyboxFront from "../../asset/skybox/skybox-front.png";
+import skyboxBack from "../../asset/skybox/skybox-back.png";
 import NavBar from "./NavBar";
 import NavItemBar from "./NavItemBar";
 import UI_DATA from "./UI_DATA.json";
 // import { AtomModel } from "./util/model/Atom";
 import { HomePlanet } from "./util/model/PlanetHome";
+import { Moon } from "./util/model/Moon";
+import { Earth } from "./util/model/Earth";
 import { onDocumentMouseMove } from "./util/camera/camera";
 // TODO: Build Task
 // change the favicon
@@ -33,6 +35,8 @@ import {
   AnimateZMoveHP,
   AnimationRotateY,
 } from "./util/animation/home-planet-animation";
+
+
 
 export interface IAppProps {}
 
@@ -64,7 +68,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
       (async function () {
         setLoadingProgress(LoadingObject[0]);
         const texture = await loadTexture(
-          [moonRight, moonLeft, moonTop, moonBottom, moonFront, moonBack],
+          [skyboxRight, skyboxLeft, skyboxTop, skyboxBottom, skyboxFront, skyboxBack],
           "cube"
         );
         scene.background = texture;
@@ -72,7 +76,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
         const width = window.innerWidth;
         const height = window.innerHeight;
         const camera = new THREE.PerspectiveCamera(
-          75,
+          50,
           width / height,
           0.1,
           1000
@@ -84,14 +88,19 @@ export default function SpaceShipShowcase(props: IAppProps) {
         setLoadingProgress(LoadingObject[2]);
 
         // import mesh
-        const mesh = await HomePlanet();
-        // Moon: -117,-25,-8
-        // Earth: -30,84,-71
-        // Jup: 30,-45,-180
+        const HomePlanetMesh = await HomePlanet();
+
         setLoadingProgress(LoadingObject[3]);
+
+        const moonMesh = await Moon();
+
+        setLoadingProgress(LoadingObject[4]);
+
+        const earthMesh = await Earth();
+
         // camera lookat => subtract 10 from z
         // light directly from the back, also ambient light
-        const light = new THREE.DirectionalLight(0xffffff, 15);
+        const light = new THREE.DirectionalLight(0xffffff, LightingObject?.objectIntensity || 0);
         // light.position.set(0, 0, -30);
         light.position.set(
           LightingObject?.objectPosition.x || 0,
@@ -100,14 +109,13 @@ export default function SpaceShipShowcase(props: IAppProps) {
         );
         // const ambientLight = new THREE.AmbientLight(0xffffff, 5);
         scene.add(light);
-        setLoadingProgress(LoadingObject[4]);
         // scene.add(ambientLight);
         //   mouse pointer anitmation
         let angle = 0;
         // cone: y => -12 to 12, x => -12 to 12
         const animation = () => {
-          mesh.children[0].rotation.y += 0.0004;
-          mesh.children[1].rotation.y += 0.001;
+          // mesh.children[0].rotation.y += 0.0004;
+          // mesh.children[1].rotation.y += 0.001;
         };
         // mesh.position.y = 12;
         setLoadingProgress(LoadingObject[5]);
@@ -117,7 +125,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
           canvas,
           width,
           height,
-          mesh,
+          mesh: HomePlanetMesh,
           showPerformance: false,
           RotateControls: false,
           animation,
@@ -125,34 +133,36 @@ export default function SpaceShipShowcase(props: IAppProps) {
         });
         setLoadingProgress(LoadingObject[6]);
 
+        const adjustedX = (HomePlanetObject?.objectPosition?.x) as number * window.innerWidth / 1000;
+        const adjustedY = (HomePlanetObject?.objectPosition?.y) as number * window.innerHeight / 1000;
         // find by name in array of objects
-        mesh.position.x = HomePlanetObject?.objectPosition.x || 0;
-        mesh.position.z = HomePlanetObject?.objectPosition.z || 0;
-        mesh.position.y = HomePlanetObject?.objectPosition.y || 0;
+        HomePlanetMesh.position.x = adjustedX
+        HomePlanetMesh.position.y = adjustedY
+        HomePlanetMesh.position.z = HomePlanetObject?.objectPosition.z || 0;
 
         const { renderer } = renderInstance;
 
         // await for 1s
         await new Promise<void>((resolve) => {
           setTimeout(() => {
-            AnimateZMoveHP(mesh, -28);
-            AnimationRotateY(mesh, Math.PI * 0.3);
+            AnimateZMoveHP(HomePlanetMesh, -28);
+            AnimationRotateY(HomePlanetMesh, Math.PI * 0.3);
           }, 200);
           resolve();
         });
 
         window.addEventListener("resize", () => {
-          const width = window.innerWidth;
-          const height = window.innerHeight;
-          renderer.setSize(width, height);
-          camera.aspect = width / height;
+          // const width = window.innerWidth;
+          // const height = window.innerHeight;
+          // renderer.setSize(width, height);
+          // camera.aspect = width / height;
           camera.updateProjectionMatrix();
         });
         const calculateMeshRotation = (event: MouseEvent) => {
           if ((window as any).lastMouseX) {
             const diff = (window as any).lastMouseX - event.clientX;
-            if (mesh) {
-              mesh.rotation.y += diff / 1000;
+            if (HomePlanetMesh) {
+              HomePlanetMesh.rotation.y += diff / 1000;
             }
           }
         };
@@ -165,6 +175,16 @@ export default function SpaceShipShowcase(props: IAppProps) {
           const { x, y } = onDocumentMouseMove(event);
           camera.lookAt(x * 7, y * 7, 0);
           setMouseMoveCoordinate({ x, y });
+        });
+
+        document.addEventListener("mousedown", (event) => {
+          // change cursor
+          mouseInteractionAreaRef.current?.classList.add("cursor-none");
+        });
+
+        document.addEventListener("mouseup", (event) => {
+          // change cursor
+          mouseInteractionAreaRef.current?.classList.remove("cursor-none");
         });
 
         mouseInteractionAreaRef.current?.addEventListener(
@@ -225,11 +245,11 @@ export default function SpaceShipShowcase(props: IAppProps) {
                   <div className="bottom-left pe-none">
                     <div className="d-flex text-light flex-column align-items-end justify-content-start gap-2">
                       <h4 className="fw-bold fs-3 mb-0 pb-0 ">
-                        Alpha Centari{" "}
+                        Proxima Centauri B{" "}
                       </h4>
-                      <span className="text-light fs-6 pe-all">
-                        4.36 light years away
-                      </span>
+                      <a href="#" className="link-styled text-light fs-6 pe-all">
+                        Our 100 Year Vision
+                      </a>
                     </div>
                   </div>
                 )}
