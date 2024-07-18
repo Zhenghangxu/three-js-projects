@@ -5,7 +5,7 @@ import { InlineIcon } from "@iconify/react";
 export interface navItemProps {
   icon: string;
   title: string;
-  onClick?: () => void;
+  onClick?: (index: number) => void;
 }
 
 export interface NavProps {
@@ -33,7 +33,7 @@ export default function NavItemBar(props: NavProps) {
               onClick={() => {
                 setActiveIndex(index);
                 if (item.onClick) {
-                  item.onClick();
+                  item.onClick(index);
                 }
               }}
             >

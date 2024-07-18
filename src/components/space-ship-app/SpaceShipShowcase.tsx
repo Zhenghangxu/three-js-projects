@@ -17,6 +17,8 @@ import { HomePlanet } from "./util/model/PlanetHome";
 import { Moon } from "./util/model/Moon";
 import { Earth } from "./util/model/Earth";
 import { onDocumentMouseMove } from "./util/camera/camera";
+import { Tween } from "@tweenjs/tween.js";
+
 // TODO: Build Task
 // change the favicon
 // change the title
@@ -31,12 +33,7 @@ import { loadTexture } from "./util/texture/loadTexture";
 import HomeHeader from "./pages/home-headline";
 
 // Animation
-import {
-  AnimateZMoveHP,
-  AnimationRotateY,
-} from "./util/animation/home-planet-animation";
-
-
+import { AnimateMesh } from "./util/animation/home-planet-animation";
 
 export interface IAppProps {}
 
@@ -49,26 +46,100 @@ export default function SpaceShipShowcase(props: IAppProps) {
     y: 0,
   });
   const [loadingProgress, setLoadingProgress] = useState<any>({});
+  const [activeMesh, setActiveMesh] = useState<number | undefined>(0);
+  const [renderInstance, setRenderInstance] = useState<any>(null);
+
+  const calculateMeshRotation = (event: MouseEvent) => {
+    if ((window as any).lastMouseX) {
+      const diff = (window as any).lastMouseX - event.clientX;
+      return diff / 1000;
+    }
+  };
+  const NAV_DATA: any = [
+    {
+      icon: "solar:star-circle-bold",
+      title: "Home",
+      onClick: () => {
+        setActiveMesh(0);
+      },
+    },
+    {
+      icon: "mdi:earth",
+      title: "Terra",
+      onClick: () => {
+        setActiveMesh(1);
+      },
+    },
+    {
+      icon: "hugeicons:moon",
+      title: "Luna",
+      onClick: () => {
+        setActiveMesh(2);
+      },
+    },
+    {
+      icon: "hugeicons:jupiter",
+      title: "Jupiter",
+      onClick: () => {
+        setActiveMesh(3);
+      },
+    },
+  ];
+
+  // calculate adjusted position
+  const getAdjustedPosition = (object: any) => {
+    const screenCoordinateMultiplier = 1 / 1000;
+
+    const adjustedX =
+      (object?.objectPosition?.x as number) *
+      window.innerWidth *
+      screenCoordinateMultiplier;
+    const adjustedY =
+      (object?.objectPosition?.y as number) *
+      window.innerHeight *
+      screenCoordinateMultiplier;
+    return {
+      Px: adjustedX,
+      Py: adjustedY,
+      Pz: object?.objectPosition.z,
+    };
+  };
+
+  // Get Data
+  const HomePlanetObject = UI_DATA["3D"].find(
+    (item) => item.objectName === "HomePlanet"
+  );
+  const MoonPlanetObject = UI_DATA["3D"].find(
+    (item) => item.objectName === "Moon"
+  );
+  const EarthPlanetObject = UI_DATA["3D"].find(
+    (item) => item.objectName === "Earth"
+  );
+  const CameraObject = UI_DATA["3D"].find(
+    (item) => item.objectName === "Camera"
+  );
+  const LightingObject = UI_DATA["3D"].find(
+    (item) => item.objectName === "Sunlight"
+  );
+
+  const LoadingObject = UI_DATA["2D"].Loader;
+
   useEffect(() => {
     if (canvasRef.current && !isInited) {
       const canvas = canvasRef.current;
-      // Get Data
-      const HomePlanetObject = UI_DATA["3D"].find(
-        (item) => item.objectName === "HomePlanet"
-      );
-      const CameraObject = UI_DATA["3D"].find(
-        (item) => item.objectName === "Camera"
-      );
-      const LightingObject = UI_DATA["3D"].find(
-        (item) => item.objectName === "Sunlight"
-      );
-      const LoadingObject = UI_DATA["2D"].Loader;
 
       const scene = new THREE.Scene();
       (async function () {
         setLoadingProgress(LoadingObject[0]);
         const texture = await loadTexture(
-          [skyboxRight, skyboxLeft, skyboxTop, skyboxBottom, skyboxFront, skyboxBack],
+          [
+            skyboxRight,
+            skyboxLeft,
+            skyboxTop,
+            skyboxBottom,
+            skyboxFront,
+            skyboxBack,
+          ],
           "cube"
         );
         scene.background = texture;
@@ -79,28 +150,42 @@ export default function SpaceShipShowcase(props: IAppProps) {
           50,
           width / height,
           0.1,
-          1000
+          500
         );
         camera.position.z = CameraObject?.objectPosition.z || 5;
         camera.position.x = CameraObject?.objectPosition.x || 0;
         camera.position.y = CameraObject?.objectPosition.y || 0;
         camera.lookAt(0, 0, 0);
         setLoadingProgress(LoadingObject[2]);
+        // mesh position
+        // set Mesh Positions
 
         // import mesh
-        const HomePlanetMesh = await HomePlanet();
+        const HomePlanetMesh = await HomePlanet(
+          getAdjustedPosition(HomePlanetObject)
+        );
 
         setLoadingProgress(LoadingObject[3]);
 
-        const moonMesh = await Moon();
+        const moonMesh = await Moon(getAdjustedPosition(MoonPlanetObject));
 
         setLoadingProgress(LoadingObject[4]);
 
-        const earthMesh = await Earth();
+        const earthMesh = await Earth(getAdjustedPosition(EarthPlanetObject));
+
+        // Hide all Mesh
+        HomePlanetMesh.visible = false;
+        moonMesh.visible = false;
+        earthMesh.visible = false;
+
+        const meshList = [HomePlanetMesh, earthMesh, moonMesh];
 
         // camera lookat => subtract 10 from z
         // light directly from the back, also ambient light
-        const light = new THREE.DirectionalLight(0xffffff, LightingObject?.objectIntensity || 0);
+        const light = new THREE.DirectionalLight(
+          0xffffff,
+          LightingObject?.objectIntensity || 0
+        );
         // light.position.set(0, 0, -30);
         light.position.set(
           LightingObject?.objectPosition.x || 0,
@@ -111,12 +196,8 @@ export default function SpaceShipShowcase(props: IAppProps) {
         scene.add(light);
         // scene.add(ambientLight);
         //   mouse pointer anitmation
-        let angle = 0;
         // cone: y => -12 to 12, x => -12 to 12
-        const animation = () => {
-          // mesh.children[0].rotation.y += 0.0004;
-          // mesh.children[1].rotation.y += 0.001;
-        };
+        // TODO: move this animation to another useEffect hook
         // mesh.position.y = 12;
         setLoadingProgress(LoadingObject[5]);
         const renderInstance = await initThree({
@@ -125,31 +206,13 @@ export default function SpaceShipShowcase(props: IAppProps) {
           canvas,
           width,
           height,
-          mesh: HomePlanetMesh,
+          mesh: meshList,
           showPerformance: false,
           RotateControls: false,
-          animation,
           axisHelper: false,
         });
         setLoadingProgress(LoadingObject[6]);
-
-        const adjustedX = (HomePlanetObject?.objectPosition?.x) as number * window.innerWidth / 1000;
-        const adjustedY = (HomePlanetObject?.objectPosition?.y) as number * window.innerHeight / 1000;
-        // find by name in array of objects
-        HomePlanetMesh.position.x = adjustedX
-        HomePlanetMesh.position.y = adjustedY
-        HomePlanetMesh.position.z = HomePlanetObject?.objectPosition.z || 0;
-
-        const { renderer } = renderInstance;
-
         // await for 1s
-        await new Promise<void>((resolve) => {
-          setTimeout(() => {
-            AnimateZMoveHP(HomePlanetMesh, -28);
-            AnimationRotateY(HomePlanetMesh, Math.PI * 0.3);
-          }, 200);
-          resolve();
-        });
 
         window.addEventListener("resize", () => {
           // const width = window.innerWidth;
@@ -158,14 +221,6 @@ export default function SpaceShipShowcase(props: IAppProps) {
           // camera.aspect = width / height;
           camera.updateProjectionMatrix();
         });
-        const calculateMeshRotation = (event: MouseEvent) => {
-          if ((window as any).lastMouseX) {
-            const diff = (window as any).lastMouseX - event.clientX;
-            if (HomePlanetMesh) {
-              HomePlanetMesh.rotation.y += diff / 1000;
-            }
-          }
-        };
 
         document.addEventListener("mousemove", (event) => {
           if (event.buttons === 1) {
@@ -186,26 +241,100 @@ export default function SpaceShipShowcase(props: IAppProps) {
           // change cursor
           mouseInteractionAreaRef.current?.classList.remove("cursor-none");
         });
-
-        mouseInteractionAreaRef.current?.addEventListener(
-          "mousemove",
-          async (event) => {
-            if (event.buttons === 1) {
-              (window as any).lastMouseX = event.clientX;
-              await new Promise<void>((resolve) => {
-                setTimeout(() => {
-                  resolve();
-                }, 100);
-              });
-              calculateMeshRotation(event);
-            }
-          }
-        );
+        setRenderInstance(renderInstance);
         setLoadingProgress(LoadingObject[7]);
+        // Show active mesh
+        console.log("meshList", meshList);
+        if (meshList[activeMesh as number]) {
+          meshList[activeMesh as number].visible = true;
+        } else {
+          console.error("Active Mesh not found");
+        }
         setIsInited(true);
       })();
     }
   }, [isInited]);
+
+  useEffect(() => {
+    // check if activeMesh is a number
+    if (!isInited) {
+      return;
+    }
+    const mouseAreaRef = mouseInteractionAreaRef.current;
+    const currentMesh = renderInstance.mesh[activeMesh as number];
+    const position_start = getAdjustedPosition(HomePlanetObject);
+    currentMesh.position.set(
+      position_start.Px,
+      position_start.Py,
+      position_start.Pz
+    );
+    currentMesh.visible = true;
+    const mouseDragEventHandler = async (event: MouseEvent) => {
+      if (event.buttons === 1) {
+        (window as any).lastMouseX = event.clientX;
+        await new Promise<void>((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 100);
+        });
+        const diff = calculateMeshRotation(event);
+        if (diff) {
+          currentMesh.rotation.y += diff;
+        }
+      }
+    };
+
+    function loopRotateAnimation() {
+      if (currentMesh.children[1]) {
+        currentMesh.children[0].rotation.y += 0.002;
+        currentMesh.children[1].rotation.y += 0.001;
+      } else {
+        console.log("currentMesh", currentMesh);
+        currentMesh.rotation.y += 0.002;
+      }
+      requestAnimationFrame(loopRotateAnimation);
+    }
+
+    mouseAreaRef?.addEventListener("mousemove", mouseDragEventHandler);
+
+    let animations: Tween<THREE.Euler | THREE.Vector3>[] = [];
+    // Animation
+    (async function () {
+      await new Promise<void>((resolve) => {
+        setTimeout(() => {
+          const firstMove = AnimateMesh(currentMesh, "position", -28, 0, "z");
+          const secondMove = AnimateMesh(
+            currentMesh,
+            "rotation",
+            Math.PI * 0.3,
+            0,
+            "y",
+            () => {
+              loopRotateAnimation();
+            }
+          );
+          animations.push(firstMove, secondMove);
+        }, 200);
+        resolve();
+      });
+    })();
+
+    return () => {
+      // Unmount Object by Move it out of view
+      currentMesh.visible = false;
+      // remove event listener
+      // remove animation
+      mouseAreaRef?.removeEventListener("mousemove", mouseDragEventHandler);
+      (window as any).lastMouseX = null;
+      // remove animation
+      animations.forEach((animation) => {
+        animation.stop();
+      });
+    };
+    // get active scene, animation, and camera from active render Instance
+    // Show/Hide UI Parts by updating activeMesh
+    //
+  }, [activeMesh, isInited]);
 
   return (
     <section className="three-section">
@@ -247,7 +376,10 @@ export default function SpaceShipShowcase(props: IAppProps) {
                       <h4 className="fw-bold fs-3 mb-0 pb-0 ">
                         Proxima Centauri B{" "}
                       </h4>
-                      <a href="#" className="link-styled text-light fs-6 pe-all">
+                      <a
+                        href="#"
+                        className="link-styled text-light fs-6 pe-all"
+                      >
                         Our 100 Year Vision
                       </a>
                     </div>
@@ -266,10 +398,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
               >
                 <div className="hero-text-container mb-5">
                   <nav className="navbar-nav glass hero-nav">
-                    <NavItemBar
-                      activeIndex={0}
-                      data={UI_DATA["2D"].Navigation}
-                    />
+                    <NavItemBar activeIndex={activeMesh} data={NAV_DATA} />
                   </nav>
                   <HomeHeader />
                 </div>
@@ -285,3 +414,6 @@ export default function SpaceShipShowcase(props: IAppProps) {
     </section>
   );
 }
+
+// Request issue with personal-info
+// Mandatory fields are not being validated for maiden name

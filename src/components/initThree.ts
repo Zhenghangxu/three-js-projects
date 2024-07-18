@@ -21,7 +21,7 @@ export const initThree = async ({
   canvas: any;
   width: number;
   height: number;
-  mesh: any;
+  mesh: THREE.Object3D[];
   axisHelper?: boolean;
   showPerformance?: boolean;
   RotateControls?: boolean;
@@ -29,7 +29,7 @@ export const initThree = async ({
 }) => {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
-  scene.add(mesh);
+  mesh.forEach((mesh) => scene.add(mesh));
   if (axisHelper) {
     scene.add(new THREE.AxesHelper(15));
   }
@@ -65,9 +65,9 @@ export const initThree = async ({
   // GUI
   const gui = new GUI();
   const cubeFolder = gui.addFolder("Mesh");
-  cubeFolder.add(mesh.rotation, "x", 0, Math.PI * 2);
-  cubeFolder.add(mesh.rotation, "y", 0, Math.PI * 2);
-  cubeFolder.add(mesh.rotation, "z", 0, Math.PI * 2);
+  cubeFolder.add(mesh[0].rotation, "x", 0, Math.PI * 2);
+  cubeFolder.add(mesh[0].rotation, "y", 0, Math.PI * 2);
+  cubeFolder.add(mesh[0].rotation, "z", 0, Math.PI * 2);
   cubeFolder.open();
   const cameraFolder = gui.addFolder("Camera Pos");
   cameraFolder.add(camera.position, "z", 0, 20);
@@ -86,6 +86,6 @@ export const initThree = async ({
     camera.lookAt(cameraLookAt.x, cameraLookAt.y, cameraLookAt.z);
   }
   animate();
-  return { renderer, scene, camera, controls, stats, gui };
+  return { renderer, scene, camera, controls, stats, gui, mesh };
   // TODO: figure out why animation loop is requireed here
 };
