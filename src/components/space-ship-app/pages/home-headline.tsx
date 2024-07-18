@@ -12,13 +12,13 @@ export default function HomeHeader(props: props) {
         Space
       </h2>
       <h3 className="hero-sub-title p-text-regular">
-        <div className="fw-bold fs-4">
+        {/* <div className="fw-bold fs-4">
           Orbital Construction · Interplanetary Transportation · Deep Space
           Mining
         </div>
         <p className="fs-6 mt-3">
 
-        </p>
+        </p> */}
       </h3>
       <div className="d-flex gap-4 align-items-stretch justify-content-stretch mt-5">
         <LargeButton

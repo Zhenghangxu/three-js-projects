@@ -18,6 +18,5 @@ export const Moon = async (): Promise<THREE.Mesh> => {
         metalness: 0
     });
     const mesh = new THREE.Mesh(moon, material);
-    mesh.castShadow = true;
     return mesh;
 }
