@@ -308,6 +308,8 @@ export default function SpaceShipShowcase(props: IAppProps) {
       }
     };
 
+    let animationFrame: number;
+
     function loopRotateAnimation() {
       if (currentMesh.children[1]) {
         currentMesh.children[0].rotation.y += 0.0004;
@@ -315,7 +317,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
       } else {
         currentMesh.rotation.y += 0.002;
       }
-      requestAnimationFrame(loopRotateAnimation);
+      animationFrame = requestAnimationFrame(loopRotateAnimation);
     }
 
     mouseAreaRef?.addEventListener("mousemove", mouseDragEventHandler);
@@ -349,6 +351,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
         animations.forEach((animation) => {
           animation.stop();
         });
+        cancelAnimationFrame(animationFrame);
       });
     };
   }, [activeMesh, isInited]);
