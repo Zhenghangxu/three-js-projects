@@ -1,36 +1,24 @@
-import { PerspectiveCamera } from "three";
-export const goTo = ({
-  x = 0,
-  y = 0,
-  z = 0,
-  camera = new PerspectiveCamera(0, 0, 0),
-}) => {
-  // camera look at xyz
-  // camera move to place where z = 13
-  if (camera) {
-    camera.lookAt(x, y, z);
-    camera.position.set(x, y, 13);
-  }
-};
-
-export function onDocumentMouseMove(event: MouseEvent) {
-  // get the x,y percentage
-  // ie how close to the edge of the screen is the mouse
-  // the closer to the edge larger the percentage
-  let x = event.clientX / window.innerWidth;
-  let y = event.clientY / window.innerHeight;
-  if (x > 0.7) {
-    x = 0.7;
-  }
-  if (y > 0.7) {
-    y = 0.7;
-  }
-  if (x < -0.7) {
-    x = -0.7;
-  }
-  if (y < -0.7) {
-    y = -0.7;
-  }
-  // console.log("x:", x, "y:", y);
+import * as THREE from "three";
+export function convertMouseCoordinate(event: MouseEvent) {
+  let x = (event.clientX / window.innerWidth) * 2 - 1;
+  let y = (event.clientY / window.innerHeight) * 2 - 1;
   return { x, y };
 }
+
+export const getMouseHoverMesh = (
+  event: MouseEvent,
+  camera: THREE.Camera,
+  scene: THREE.Scene
+) => {
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  const { x, y } = convertMouseCoordinate(event);
+  // Flip the coordinate since in NDC, y value increase as you go up
+  mouse.set(x, -1 * y);
+  // Ignore Invisible objects
+  // only return intersected objects in layer 4
+  raycaster.layers.enable(4);
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(scene.children, true);
+  return intersects;
+};

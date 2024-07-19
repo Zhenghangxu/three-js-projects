@@ -16,8 +16,9 @@ import UI_DATA from "./UI_DATA.json";
 import { HomePlanet } from "./util/model/PlanetHome";
 import { Moon } from "./util/model/Moon";
 import { Earth } from "./util/model/Earth";
-import { onDocumentMouseMove } from "./util/camera/camera";
+import { convertMouseCoordinate } from "./util/camera/camera";
 import { Tween } from "@tweenjs/tween.js";
+import Loader from "../../asset/UI/loader_custom.svg";
 
 // TODO: Build Task
 // change the favicon
@@ -155,7 +156,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
         camera.position.z = CameraObject?.objectPosition.z || 5;
         camera.position.x = CameraObject?.objectPosition.x || 0;
         camera.position.y = CameraObject?.objectPosition.y || 0;
-        camera.lookAt(0, 0, 0);
+        camera.lookAt(4, 5, 0);
         setLoadingProgress(LoadingObject[2]);
         // mesh position
         // set Mesh Positions
@@ -173,12 +174,16 @@ export default function SpaceShipShowcase(props: IAppProps) {
 
         const earthMesh = await Earth(getAdjustedPosition(EarthPlanetObject));
 
-        // Hide all Mesh
-        HomePlanetMesh.visible = false;
-        moonMesh.visible = false;
-        earthMesh.visible = false;
+        // // Hide all Mesh
+        // HomePlanetMesh.visible = true;
+        // moonMesh.visible = true;
+        // earthMesh.visible = true;
 
         const meshList = [HomePlanetMesh, earthMesh, moonMesh];
+
+        meshList.forEach((mesh) => {
+          mesh.visible = false;
+        });
 
         // camera lookat => subtract 10 from z
         // light directly from the back, also ambient light
@@ -227,8 +232,8 @@ export default function SpaceShipShowcase(props: IAppProps) {
             // reject mouse move if mouse is hold down
             return;
           }
-          const { x, y } = onDocumentMouseMove(event);
-          camera.lookAt(x * 7, y * 7, 0);
+          const { x, y } = convertMouseCoordinate(event);
+          camera.lookAt(x * 3, y * 3, 0);
           setMouseMoveCoordinate({ x, y });
         });
 
@@ -243,12 +248,12 @@ export default function SpaceShipShowcase(props: IAppProps) {
         });
         setRenderInstance(renderInstance);
         setLoadingProgress(LoadingObject[7]);
-        // Show active mesh
-        console.log("meshList", meshList);
         if (meshList[activeMesh as number]) {
           meshList[activeMesh as number].visible = true;
         } else {
-          console.error("Active Mesh not found");
+          console.error(
+            "Active Mesh not found, check if the model is loaded for this button"
+          );
         }
         setIsInited(true);
       })();
@@ -256,7 +261,6 @@ export default function SpaceShipShowcase(props: IAppProps) {
   }, [isInited]);
 
   useEffect(() => {
-    // check if activeMesh is a number
     if (!isInited) {
       return;
     }
@@ -286,10 +290,9 @@ export default function SpaceShipShowcase(props: IAppProps) {
 
     function loopRotateAnimation() {
       if (currentMesh.children[1]) {
-        currentMesh.children[0].rotation.y += 0.002;
+        currentMesh.children[0].rotation.y += 0.0004;
         currentMesh.children[1].rotation.y += 0.001;
       } else {
-        console.log("currentMesh", currentMesh);
         currentMesh.rotation.y += 0.002;
       }
       requestAnimationFrame(loopRotateAnimation);
@@ -346,27 +349,24 @@ export default function SpaceShipShowcase(props: IAppProps) {
         <div className="container">
           <div className="row">
             <div
-              className="col-md-6 col-12 pe-all cursor-hand"
+              className={`col-md-6 col-12 pe-all ${
+                isInited ? "cursor-hand" : ""
+              }`}
               ref={mouseInteractionAreaRef}
             >
               <div className="p-3 bg-transparent overlay-column">
                 {!isInited && (
                   <div className="loader-container gap-3">
-                    <div className="loader arrow me-3">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                    <div className="d-flex flex-column align-items-start">
-                      <p className="loading-progress fs-3 text-light fw-bold mb-0 glow-text-weak textured-text">
-                        {loadingProgress?.progress}%
-                      </p>
-                      <p className="loadingText mb-0 fs-4 text-light textured-text glow-text-weak">
-                        {loadingProgress?.step}
-                      </p>
+                    <div className="d-flex flex-column align-items-start p-relative">
+                      <Loader />
+                      <div className="loader-indicator-text d-flex flex-column gap-2 align-items-center justify-content-center">
+                        <p className="loading-progress fs-3 text-light fw-bold mb-0 glow-text-weak textured-text">
+                          {loadingProgress?.progress}%
+                        </p>
+                        <span className="loadingText mb-0 fs-4 text-light textured-text glow-text-weak fw-bold">
+                          {loadingProgress?.step}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -406,9 +406,6 @@ export default function SpaceShipShowcase(props: IAppProps) {
             </div>
           </div>
         </div>
-        {/* <div className="headline-container d-flex align-items-center justify-content-center w-100 h-100">
-          <div className="d-flex flex-column align-items-end me-2 text-white">Test</div>
-        </div> */}
       </div>
       <div className="canvas position-fixed" ref={canvasRef}></div>
     </section>
