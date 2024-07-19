@@ -1,60 +1,54 @@
 import * as THREE from "three";
-import PlanetBase from "../../../../asset/continental/Planet_continental_baseColor.jpeg";
-import PlanetMetalic from "../../../../asset/continental/Planet_continental_metallicRoughness.png";
-import PlanetNormal from "../../../../asset/continental/Planet_continental_normal.png";
+import PlanetBase from "../../../../asset/earth/Earth_baseColor.jpeg";
+import PlanetMetalic from "../../../../asset/earth/Earth_metallicRoughness.png";
+import Normal from "../../../../asset/earth/Earth_normal.png";
+import Emissive from "../../../../asset/earth/Earth_emissive.jpeg";
 
 // clouds
-import PlanetCloudBase from "../../../../asset/continental/planet_continental_cloud_baseColor.png";
-import PlanetCloudNormal from "../../../../asset/continental/planet_continental_cloud_normal.png";
+import PlanetCloudBase from "../../../../asset/earth/Clouds.png";
 
 // Shader
 import { vertexShader } from "../shaders/vertex";
 import { fragmentShader } from "../shaders/fragment";
 import { loadTexture } from "../texture/loadTexture";
+import { emissiveCancel } from "../shaders/emissiveCancel";
 
 // DATA
-import UI_DATA from "../../../space-ship-app/UI_DATA.json";
+// import UI_DATA from "../../../space-ship-app/UI_DATA.json";
 
-// TODO: use a plane for the earth instead
-// TODO: implement an async texture loading function
 // Bump map was loaded after the earth mesh
 export const Earth = async ({
   Px = 0,
   Py = 0,
   Pz = 0,
 }): Promise<THREE.Group> => {
-  const HomePlanetObject = UI_DATA["3D"].find(
-    (item) => item.objectName === "HomePlanet"
-  );
-  const screenCoordinateMultiplier =
-    UI_DATA["2D"].Responsive.screenCoordinateMultiplier;
   const group = new THREE.Group();
   const sphere = new THREE.SphereGeometry(25, 64, 64);
-  // adjust for earth's oval shape
-  console.log("data:", sphere.attributes);
-  //   sphere.scale(1.02, 1, 1);
   const base = await loadTexture(PlanetBase);
   const roughnessMap = await loadTexture(PlanetMetalic);
-  const normalMap = await loadTexture(PlanetNormal);
+  const normalMap = await loadTexture(Normal);
+  const emissive = await loadTexture(Emissive);
   base.colorSpace = THREE.SRGBColorSpace;
   const material = new THREE.MeshStandardMaterial({
     map: base,
-    roughness: 0.8,
     metalness: 0.1,
+    normalMap: normalMap,
+    normalScale: new THREE.Vector2(1, 1),
     roughnessMap: roughnessMap,
     metalnessMap: roughnessMap,
-    normalMap: normalMap,
-    normalScale: new THREE.Vector2(0.6, 0.6),
-    // emit blue sky light
+    emissiveMap: emissive,
+    emissiveIntensity: 0.4,
+    emissive: new THREE.Color(0xffff88),
   });
-  console.log("material created", material);
+
+//   material.onBeforeCompile = function (shader) {
+//     shader.fragmentShader = shader.fragmentShader.replace('#include <emissivemap_fragment>', emissiveCancel);
+//   };
 
   const clouds = await loadTexture(PlanetCloudBase);
-  const cloudsNormal = await loadTexture(PlanetCloudNormal);
   let cloudGeo = new THREE.SphereGeometry(25.8, 64, 64);
   let cloudsMat = new THREE.MeshStandardMaterial({
-    map: clouds,
-    normalMap: cloudsNormal,
+    alphaMap: clouds,
     transparent: true,
   });
 
@@ -76,13 +70,16 @@ export const Earth = async ({
   // atoms rotate 30% faster and clouds mesh
   const cloudsMesh = new THREE.Mesh(cloudGeo, cloudsMat);
   cloudsMesh.castShadow = true;
-  group.add(new THREE.Mesh(sphere, material));
+  const sphereMesh = new THREE.Mesh(sphere, material);
+  group.add(sphereMesh);
   group.add(cloudsMesh);
   group.add(atmos);
 
   // set Mesh Position
   // set Mesh Positions
   group.position.set(Px, Py, Pz);
+
+  console.log("Earth loaded");
 
   return group;
 };

@@ -16,6 +16,7 @@ import UI_DATA from "./UI_DATA.json";
 import { HomePlanet } from "./util/model/PlanetHome";
 import { Moon } from "./util/model/Moon";
 import { Earth } from "./util/model/Earth";
+import { JupiterPlanet } from "./util/model/Jupiter";
 import { convertMouseCoordinate } from "./util/camera/camera";
 import { Tween } from "@tweenjs/tween.js";
 import Loader from "../../asset/UI/loader_custom.svg";
@@ -116,6 +117,9 @@ export default function SpaceShipShowcase(props: IAppProps) {
   const EarthPlanetObject = UI_DATA["3D"].find(
     (item) => item.objectName === "Earth"
   );
+  const JupiterPlanetObject = UI_DATA["3D"].find(
+    (item) => item.objectName === "Jupiter"
+  );
   const CameraObject = UI_DATA["3D"].find(
     (item) => item.objectName === "Camera"
   );
@@ -174,12 +178,16 @@ export default function SpaceShipShowcase(props: IAppProps) {
 
         const earthMesh = await Earth(getAdjustedPosition(EarthPlanetObject));
 
+        const jupiterMesh = await JupiterPlanet(
+          getAdjustedPosition(JupiterPlanetObject)
+        );
+
         // // Hide all Mesh
         // HomePlanetMesh.visible = true;
         // moonMesh.visible = true;
         // earthMesh.visible = true;
 
-        const meshList = [HomePlanetMesh, earthMesh, moonMesh];
+        const meshList = [HomePlanetMesh, earthMesh, moonMesh, jupiterMesh];
 
         meshList.forEach((mesh) => {
           mesh.visible = false;
@@ -233,7 +241,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
             return;
           }
           const { x, y } = convertMouseCoordinate(event);
-          camera.lookAt(x * 3, y * 3, 0);
+          camera.lookAt(x * -3, y * -3, 0);
           setMouseMoveCoordinate({ x, y });
         });
 
@@ -392,8 +400,8 @@ export default function SpaceShipShowcase(props: IAppProps) {
                 className="p-3 bg-transparent overlay-column d-flex flex-column align-items-start justify-content-start gap-4 fade-in"
                 style={{
                   transform: `perspective(500px) rotateY(-15deg) translate(${
-                    mouseMoveCoordinate.x * 30
-                  }px, ${mouseMoveCoordinate.y * 30}px)`,
+                    mouseMoveCoordinate.x * -30
+                  }px, ${mouseMoveCoordinate.y * -30}px)`,
                 }}
               >
                 <div className="hero-text-container mb-5">
