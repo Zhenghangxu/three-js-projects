@@ -50,6 +50,11 @@ export default function SpaceShipShowcase(props: IAppProps) {
   const [loadingProgress, setLoadingProgress] = useState<any>({});
   const [activeMesh, setActiveMesh] = useState<number | undefined>(0);
   const [renderInstance, setRenderInstance] = useState<any>(null);
+  const unmountDelay = 300;
+
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 
   const calculateMeshRotation = (event: MouseEvent) => {
     if ((window as any).lastMouseX) {
@@ -269,9 +274,11 @@ export default function SpaceShipShowcase(props: IAppProps) {
   }, [isInited]);
 
   useEffect(() => {
+    // Prevent the hook from running on page load
     if (!isInited) {
       return;
     }
+
     const mouseAreaRef = mouseInteractionAreaRef.current;
     const currentMesh = renderInstance.mesh[activeMesh as number];
     const position_start = getAdjustedPosition(HomePlanetObject);
@@ -280,7 +287,12 @@ export default function SpaceShipShowcase(props: IAppProps) {
       position_start.Py,
       position_start.Pz
     );
-    currentMesh.visible = true;
+
+    (async function () {
+      await sleep(unmountDelay * 1.01);
+      currentMesh.visible = true;
+    })();
+
     const mouseDragEventHandler = async (event: MouseEvent) => {
       if (event.buttons === 1) {
         (window as any).lastMouseX = event.clientX;
@@ -320,9 +332,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
             Math.PI * 0.3,
             0,
             "y",
-            () => {
-              loopRotateAnimation();
-            }
+            loopRotateAnimation
           );
           animations.push(firstMove, secondMove);
         }, 200);
@@ -331,20 +341,16 @@ export default function SpaceShipShowcase(props: IAppProps) {
     })();
 
     return () => {
-      // Unmount Object by Move it out of view
-      currentMesh.visible = false;
-      // remove event listener
-      // remove animation
-      mouseAreaRef?.removeEventListener("mousemove", mouseDragEventHandler);
-      (window as any).lastMouseX = null;
-      // remove animation
-      animations.forEach((animation) => {
-        animation.stop();
+      AnimateMesh(currentMesh, "position", unmountDelay, 0, "x", () => {
+        currentMesh.visible = false;
+        mouseAreaRef?.removeEventListener("mousemove", mouseDragEventHandler);
+        (window as any).lastMouseX = null;
+        // remove animation
+        animations.forEach((animation) => {
+          animation.stop();
+        });
       });
     };
-    // get active scene, animation, and camera from active render Instance
-    // Show/Hide UI Parts by updating activeMesh
-    //
   }, [activeMesh, isInited]);
 
   return (
