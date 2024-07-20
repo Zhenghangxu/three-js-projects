@@ -176,6 +176,10 @@ nav a {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+.dd-html a {
+  pointer-events: all;
+}
 /* glass effect */
 .glass {
   /* From https://css.glass */
@@ -426,6 +430,7 @@ nav a {
   padding: 3px;
   margin: -3px;
 }
+
 .link-styled::before {
   content: "";
   position: absolute;
@@ -447,6 +452,19 @@ nav a {
 .link-styled:hover::before {
   background-position: 0 50%;
 }
+
+/* link-styled-inline */
+.link-styled.inline {
+  color: #bdbdbd;
+}
+.link-styled.inline::before {
+  bottom: -0.2em;
+}
+a.inline:hover {
+  transition: all 0.3s;
+  color: white !important;
+}
+
 
 /* Text Selects */
 * {
@@ -478,5 +496,5 @@ hr {
 }
 
 .font-serif {
-  font-family: "Arsenal SC", sans-serif !important; 
+  font-family: "Arsenal SC", sans-serif !important;
 }

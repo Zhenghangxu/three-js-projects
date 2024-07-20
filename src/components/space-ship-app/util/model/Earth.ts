@@ -79,7 +79,6 @@ export const Earth = async ({
   // set Mesh Positions
   group.position.set(Px, Py, Pz);
 
-  console.log("Earth loaded");
 
   return group;
 };

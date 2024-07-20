@@ -23,15 +23,9 @@ export const HomePlanet = async ({
   Py = 0,
   Pz = 0,
 }): Promise<THREE.Group> => {
-  const HomePlanetObject = UI_DATA["3D"].find(
-    (item) => item.objectName === "HomePlanet"
-  );
-  const screenCoordinateMultiplier =
-    UI_DATA["2D"].Responsive.screenCoordinateMultiplier;
   const group = new THREE.Group();
   const sphere = new THREE.SphereGeometry(25, 64, 64);
   // adjust for earth's oval shape
-  console.log("data:", sphere.attributes);
   //   sphere.scale(1.02, 1, 1);
   const base = await loadTexture(PlanetBase);
   const roughnessMap = await loadTexture(PlanetMetalic);
@@ -46,7 +40,6 @@ export const HomePlanet = async ({
     normalScale: new THREE.Vector2(0.6, 0.6),
     // emit blue sky light
   });
-  console.log("material created", material);
 
   const clouds = await loadTexture(PlanetCloudBase);
   const cloudsNormal = await loadTexture(PlanetCloudNormal);

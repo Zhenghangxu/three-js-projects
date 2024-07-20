@@ -18,6 +18,7 @@ export default function HomeHeader(props: props) {
         </div>
         <p className="fs-6 mt-3">
           <div
+            className="dd-html"
             dangerouslySetInnerHTML={{
               __html: HomePlanetObject?.copies?.home_page_intro,
             }}
@@ -35,6 +36,7 @@ export default function HomeHeader(props: props) {
       <hr />
       <p className="fs-4 mt-3 text-light">
         <div
+          className="dd-html"
           dangerouslySetInnerHTML={{
             __html: HomePlanetObject?.copies?.home_page_outtro,
           }}

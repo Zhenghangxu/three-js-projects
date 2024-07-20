@@ -20,6 +20,7 @@ export default function SectionContent({ activePlanet }: props) {
         </div>
         <p className="fs-5 mt-3 fw-semibold">
           <div
+          className="dd-html"
             dangerouslySetInnerHTML={{
               // eslint-disable-next-line react/no-danger
               __html: activePlanetObject?.copies
@@ -36,6 +37,7 @@ export default function SectionContent({ activePlanet }: props) {
       <hr />
       <p className="fs-4 mt-3 text-light">
         <div
+          className="dd-html"
           dangerouslySetInnerHTML={{
             __html: activePlanetObject?.copies?.stations_detail_description,
           }}

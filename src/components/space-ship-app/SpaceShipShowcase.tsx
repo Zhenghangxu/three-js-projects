@@ -431,12 +431,14 @@ export default function SpaceShipShowcase(props: IAppProps) {
                     <div className="d-flex text-light flex-column align-items-end justify-content-start gap-2">
                       <h4 className="fw-bold fs-3 mb-0 pb-0 ">
                         <div
+                          className="dd-html"
                           dangerouslySetInnerHTML={{
                             __html: fetchPlanetContent("years", activeMesh),
                           }}
                         ></div>
                       </h4>
                       <div
+                        className="dd-html"
                         dangerouslySetInnerHTML={{
                           __html: fetchPlanetContent(
                             "call_to_action",

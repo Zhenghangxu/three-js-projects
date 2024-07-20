@@ -147,7 +147,7 @@
         "years": "Since 1976",
         "call_to_action": "<a href='#'class='link-styled text-light fs-6 pe-all'>Our Earth Orbitals</a>",
         "overall_introduction_location": "Earth, the cradle of humanity and the springboard for our cosmic ventures, is where Cosmodyn's journey begins. Our stations orbiting Earth represent the cutting edge of human ingenuity and ambition, marking the first steps in our quest to expand human presence across the solar system.",
-        "stations_detail_description": "From the bustling Axios Lab, a hub of innovation and engineering, to the luxurious Arikona Space Resort, where space tourism reaches new heights, and the state-of-the-art Cosmodyn Shipyard, where the vessels of tomorrow are built today, Cosmodyn's Earth stations are at the forefront of our mission to bring the stars closer to humanity."
+        "stations_detail_description": "From the bustling <a class='link-styled inline'>Axios Lab</a>, a hub of innovation and engineering, to the luxurious <a class='link-styled inline'>Arikona Space Resort</a>, where space tourism reaches new heights, and the state-of-the-art <a class='link-styled inline'>Cosmodyn Shipyard</a>, where the vessels of tomorrow are built today, Cosmodyn's Earth stations are at the forefront of our mission to bring the stars closer to humanity."
       }
     },
     {
@@ -163,11 +163,11 @@
       },
       "copies": {
         "tagline": "Gateway to Solar System",
-        "subtitle": "Our Lunar Exploration Series",
+        "subtitle": "Our Lunar Colonies",
         "years": "2018 - 2031 <small>(Phase 1)</small>",
         "call_to_action": "<a href='#'class='link-styled text-light fs-6 pe-all'>Traverse Our Lunar Sites</a>",
         "overall_introduction_location": "<p>The Moon, Earth's closest celestial neighbor, serves as a critical outpost for humanity's expansion into the solar system. Cosmodyn's lunar operations lay the groundwork for sustainable exploration and utilization of space resources.</p>",
-        "stations_detail_description": "The Orion Lunar Satellite Network ensures robust communication across lunar missions, while the Tianmen Space Transportation Hub facilitates seamless travel between Earth and the Moon. Our Lunar Mining Facility pioneers the extraction of essential resources, driving forward our vision of a self-sustaining human presence beyond Earth."
+        "stations_detail_description": "The <a class='link-styled inline'>Orion Lunar Satellite Network</a> (OLSN) ensures robust communication across lunar missions, while the <a class='link-styled inline'>Tianmen Hub</a> facilitates seamless travel between Earth and the Moon. Our <a class='link-styled inline'>Radken Mines</a> in Tranqulity Sea pioneers the extraction of essential resources, driving forward our vision of a self-sustaining human presence beyond Earth."
       }
     },
     {
@@ -205,12 +205,12 @@
         "z": 15
       },
       "copies": {
-        "tagline": "Humanity's Furthest Frontier",
+        "tagline": "Furthest Frontier",
         "years": "2033 - 2045",
         "subtitle": "Jupiter Ventures: A New Horizon",
         "call_to_action": "<a href='#'class='link-styled text-light fs-6 pe-all'>Visit Our Jupiter Ventures</a>",
         "overall_introduction_location": "<p>Jupiter, the giant of our solar system, symbolizes the vast potential and challenges of space exploration. Cosmodyn's operations around Jupiter aim to unlock the secrets of this majestic planet and pave the way for deeper space missions.</p>",
-        "stations_detail_description": "The Jovian Expedition Base serves as a critical outpost for exploration and research, while the Juno Probe Fleet provides unparalleled insights into Jupiter's atmosphere and magnetosphere. These initiatives are crucial steps in expanding humanity's understanding and presence in the outer solar system."
+        "stations_detail_description": "The <a class='link-styled inline'>Aristotle Expedition Base</a> on Europa serves as a critical outpost for exploration and research, while the <a class='link-styled inline'>Juno Probe Fleet</a> provides unparalleled insights into Jupiter's atmosphere and magnetosphere. These initiatives are crucial steps in expanding humanity's understanding and presence in the outer solar system."
       }
     },
     {
