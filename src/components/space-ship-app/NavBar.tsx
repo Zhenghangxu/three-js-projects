@@ -19,6 +19,7 @@ export default function NavBar(props: NavProps) {
   const [activeIndex, setActiveIndex] = useState(props.activeIndex || 0);
   useEffect(() => {
     setActiveIndex(props.activeIndex || 0);
+    
   }, [props.activeIndex]);
   return (
     <div>

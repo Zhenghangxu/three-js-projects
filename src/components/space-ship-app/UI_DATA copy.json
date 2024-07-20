@@ -1,0 +1,247 @@
+{
+  "footer": {
+    "navigation": [
+      {
+        "linkText": "Home",
+        "url": "/"
+      },
+      {
+        "linkText": "About Us",
+        "url": "/about"
+      },
+      {
+        "linkText": "Services",
+        "url": "/services"
+      },
+      {
+        "linkText": "Investors",
+        "url": "/investors"
+      },
+      {
+        "linkText": "Careers",
+        "url": "/careers"
+      },
+      {
+        "linkText": "Contact",
+        "url": "/contact"
+      }
+    ],
+    "disclaimer": "© 2034 Cosmodyn Corporation. All rights reserved. The information contained on this website is for general information purposes only. Cosmodyn assumes no responsibility for errors or omissions in the contents on the site.",
+    "social_media": [
+      {
+        "platform": "LinkedIn",
+        "url": "https://www.linkedin.com/company/cosmodyn"
+      },
+      {
+        "platform": "Twitter",
+        "url": "https://twitter.com/cosmodyn"
+      },
+      {
+        "platform": "Facebook",
+        "url": "https://www.facebook.com/cosmodyn"
+      },
+      {
+        "platform": "Instagram",
+        "url": "https://www.instagram.com/cosmodyn"
+      }
+    ],
+    "contact_info": [
+      {
+        "site": "Earth",
+        "address": "Cosmodyn Corporation, 103 Ascension Blvd, Star City, Republic of California, SC 45678",
+        "email": "info@cosmodyn.com",
+        "phone": "+1 (809) 123-4507"
+      },
+      {
+        "site": "Moon",
+        "address": "Cosmodyn Corporation, 203 Lunar Way, Tranquility Base, MO 98765",
+        "email": "info@cosmodyn.lu"
+      }
+    ],
+    "additional_links": [
+      {
+        "linkText": "Privacy Policy",
+        "url": "/privacy"
+      },
+      {
+        "linkText": "Terms of Service",
+        "url": "/terms"
+      },
+      {
+        "linkText": "Cookie Policy",
+        "url": "/cookies"
+      },
+      {
+        "linkText": "Accessibility",
+        "url": "/accessibility"
+      }
+    ]
+  },
+  "COSMODYN_BUSINESS": [
+    {
+      "objectName": "Earth",
+      "objectType": "planet",
+      "objectNum": 1,
+      "stations": [
+        {
+          "objectName": "Axios Station",
+          "sate_id": "1",
+          "objectType": "outputs",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 5,
+            "y": 4,
+            "z": -25
+          }
+        },
+        {
+          "objectName": "Arikona Space Resort",
+          "objectType": "station",
+          "sate_id": "3",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 5,
+            "y": -20,
+            "z": -30
+          }
+        },
+        {
+          "objectName": "Cosmodyn SHIPYARD",
+          "objectType": "satelite",
+          "sate_id": "6",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 20,
+            "y": 5,
+            "z": -20
+          }
+        }
+      ],
+      "copies": {
+        "tagline": "Our Home, Our Launchpad",
+        "header": "Pioneering the Future from Earth",
+        "overall_introduction_location": "Earth, the cradle of humanity and the springboard for our cosmic ventures, is where Cosmodyn's journey begins. Our stations orbiting Earth represent the cutting edge of human ingenuity and ambition, marking the first steps in our quest to expand human presence across the solar system.",
+        "stations_detail_description": "From the bustling Axios Lab, a hub of innovation and engineering, to the luxurious Arikona Space Resort, where space tourism reaches new heights, and the state-of-the-art Cosmodyn Shipyard, where the vessels of tomorrow are built today, Cosmodyn's Earth stations are at the forefront of our mission to bring the stars closer to humanity."
+      }
+    },
+    {
+      "objectName": "Moon",
+      "objectType": "planet",
+      "objectTexturePath": "src/assets/earth.jpg",
+      "objectSize": 1,
+      "objectNum": 2,
+      "objectPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "stations": [
+        {
+          "objectName": "Orion",
+          "objectType": "lunar_statelite_network",
+          "sate_id": "2",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 16,
+            "y": -10,
+            "z": -33
+          }
+        },
+        {
+          "objectName": "Tianmen Space Transportation Hub",
+          "objectType": "station",
+          "sate_id": "4",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 26,
+            "y": 0,
+            "z": -13
+          }
+        },
+        {
+          "objectName": "[NEED NAME SUGGESTION] - Mining Outputs",
+          "objectType": "satelite",
+          "sate_id": "5",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 18,
+            "y": -5,
+            "z": -20
+          }
+        }
+      ],
+      "copies": {
+        "tagline": "Gateway to Solar System",
+        "header": "<h1>Moon</h1>",
+        "overall_introduction_location": "<p>The Moon, Earth's closest celestial neighbor, serves as a critical outpost for humanity's expansion into the solar system. Cosmodyn's lunar operations lay the groundwork for sustainable exploration and utilization of space resources.</p>",
+        "stations_detail_description": "The Orion Lunar Satellite Network ensures robust communication across lunar missions, while the Tianmen Space Transportation Hub facilitates seamless travel between Earth and the Moon. Our Lunar Mining Facility pioneers the extraction of essential resources, driving forward our vision of a self-sustaining human presence beyond Earth."
+      }
+    },
+    {
+      "objectName": "Proxima Centauri B",
+      "objectType": "planet",
+      "projects": [
+        {
+          "objectName": "TO_BE_NAMED",
+          "objectType": "Generational Ship - Megastructure",
+          "sate_id": "2",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 16,
+            "y": -10,
+            "z": -33
+          }
+        }
+      ],
+      "copies": {
+        "tagline": "Our 100 Year Vision",
+        "subtitle": "<a href='#'class='link-styled text-light fs-6 pe-all'>Our 100 Year Vision</a>",
+        "header": "<h1>Proxima Centauri B</h1>",
+        "overall_introduction_location": "Proxima Centauri B represents the pinnacle of Cosmodyn's long-term aspirations. As we set our sights on interstellar travel, our mission is to create a generational ship capable of reaching and sustaining human life in the Proxima Centauri system.",
+        "stations_detail_description": "The Generational Ship project is an audacious leap towards making interstellar colonization a reality. By harnessing cutting-edge technology and pioneering spirit, Cosmodyn aims to extend humanity's reach to the stars, ensuring our species thrives for millennia to come."
+      }
+    },
+    {
+      "objectName": "Jupiter",
+      "objectType": "planet",
+      "objectTexturePath": "src/assets/earth.jpg",
+      "objectSize": 1,
+      "objectNum": 3,
+      "objectPosition": {
+        "x": 18,
+        "y": 0,
+        "z": 15
+      },
+      "stations": [
+        {
+          "objectName": "TO_BE_NAMED",
+          "objectType": "Expedition Output",
+          "sate_id": "2",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 16,
+            "y": -10,
+            "z": -33
+          }
+        },
+        {
+          "objectName": "TO_BE_NAMED",
+          "objectType": "probe_aircraft",
+          "sate_id": "4",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 26,
+            "y": 0,
+            "z": -13
+          }
+        }
+      ],
+      "copies": {
+        "tagline": "Humanity's Furthest Frontier",
+        "header": "<h1>Jupiter</h1>",
+        "overall_introduction_location": "<p>Jupiter, the giant of our solar system, symbolizes the vast potential and challenges of space exploration. Cosmodyn's operations around Jupiter aim to unlock the secrets of this majestic planet and pave the way for deeper space missions.</p>",
+        "stations_detail_description": "The Jovian Expedition Base serves as a critical outpost for exploration and research, while the Juno Probe Fleet provides unparalleled insights into Jupiter's atmosphere and magnetosphere. These initiatives are crucial steps in expanding humanity's understanding and presence in the outer solar system."
+      }
+    }
+  ]
+}

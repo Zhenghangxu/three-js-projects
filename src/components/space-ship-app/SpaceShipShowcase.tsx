@@ -33,6 +33,7 @@ import { loadTexture } from "./util/texture/loadTexture";
 
 // content blocks
 import HomeHeader from "./pages/home-headline";
+import SectionContent from "./pages/section-content";
 
 // Animation
 import { AnimateMesh } from "./util/animation/home-planet-animation";
@@ -41,6 +42,7 @@ export interface IAppProps {}
 
 export default function SpaceShipShowcase(props: IAppProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const mouseInteractionAreaRef = useRef<HTMLDivElement>(null);
   const [isInited, setIsInited] = useState(false);
   const [mouseMoveCoordinate, setMouseMoveCoordinate] = useState({
@@ -48,13 +50,32 @@ export default function SpaceShipShowcase(props: IAppProps) {
     y: 0,
   });
   const [loadingProgress, setLoadingProgress] = useState<any>({});
-  const [activeMesh, setActiveMesh] = useState<number | undefined>(0);
+  const [activeMesh, setActiveMesh] = useState<number>(0);
   const [renderInstance, setRenderInstance] = useState<any>(null);
+  const [hideNav, setHideNav] = useState(false);
+
   const unmountDelay = 300;
 
   function sleep(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+
+  const fetchPlanetContent = (type: string, activeNum: number) => {
+    const data: any = UI_DATA["3D"].find(
+      (item) => item.objectNum === activeNum
+    );
+    if (type === "subtitle") {
+      if (data?.copies?.subtitle) {
+        return data?.copies?.subtitle;
+      } else {
+        return null;
+      }
+    } else {
+      //
+      const result = data?.copies;
+      return result[type];
+    }
+  };
 
   const calculateMeshRotation = (event: MouseEvent) => {
     if ((window as any).lastMouseX) {
@@ -136,7 +157,25 @@ export default function SpaceShipShowcase(props: IAppProps) {
 
   useEffect(() => {
     if (canvasRef.current && !isInited) {
+      // prevent scroll restoration
+      // eslint-disable-next-line
+      if ("scrollRestoration" in history) {
+        // eslint-disable-next-line
+        history.scrollRestoration = "manual";
+      }
       const canvas = canvasRef.current;
+      const content = contentRef.current;
+
+      document.addEventListener("scroll", () => {
+        // get scorll position
+        const scrollPosition = document.documentElement.scrollTop;
+        if (scrollPosition >= 100) {
+          setHideNav(true);
+        }
+        if (scrollPosition < 20) {
+          setHideNav(false);
+        }
+      });
 
       const scene = new THREE.Scene();
       (async function () {
@@ -391,14 +430,26 @@ export default function SpaceShipShowcase(props: IAppProps) {
                   <div className="bottom-left pe-none">
                     <div className="d-flex text-light flex-column align-items-end justify-content-start gap-2">
                       <h4 className="fw-bold fs-3 mb-0 pb-0 ">
-                        Proxima Centauri B{" "}
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: fetchPlanetContent("years", activeMesh),
+                          }}
+                        ></div>
                       </h4>
-                      <a
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: fetchPlanetContent(
+                            "call_to_action",
+                            activeMesh
+                          ),
+                        }}
+                      ></div>
+                      {/* <a
                         href="#"
                         className="link-styled text-light fs-6 pe-all"
                       >
                         Our 100 Year Vision
-                      </a>
+                      </a> */}
                     </div>
                   </div>
                 )}
@@ -407,6 +458,7 @@ export default function SpaceShipShowcase(props: IAppProps) {
             <div className="col-md-6 col-12">
               <div
                 className="p-3 bg-transparent overlay-column d-flex flex-column align-items-start justify-content-start gap-4 fade-in"
+                ref={contentRef}
                 style={{
                   transform: `perspective(500px) rotateY(-15deg) translate(${
                     mouseMoveCoordinate.x * -30
@@ -414,10 +466,16 @@ export default function SpaceShipShowcase(props: IAppProps) {
                 }}
               >
                 <div className="hero-text-container mb-5">
-                  <nav className="navbar-nav glass hero-nav">
-                    <NavItemBar activeIndex={activeMesh} data={NAV_DATA} />
-                  </nav>
-                  <HomeHeader />
+                  {!hideNav && (
+                    <nav className="navbar-nav glass hero-nav">
+                      <NavItemBar activeIndex={activeMesh} data={NAV_DATA} />
+                    </nav>
+                  )}
+                  {activeMesh === 0 ? (
+                    <HomeHeader />
+                  ) : (
+                    <SectionContent activePlanet={activeMesh} />
+                  )}
                 </div>
               </div>
             </div>
