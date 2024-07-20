@@ -18,3 +18,5 @@ void main() {
     // (optional) colorSpace conversion for output
     gl_FragColor = linearToOutputTexel( gl_FragColor );
 }`
+
+// credit: https://franky-arkon-digital.medium.com/make-your-own-earth-in-three-js-8b875e281b1e

@@ -4,7 +4,10 @@
       "logoPath": "src/assets/logo.png",
       "logoAlt": "Space Ship Logo"
     },
-    "Loader":[
+    "Responsive": {
+      "screenCoordinateMultiplier": 1000
+    },
+    "Loader": [
       {
         "step": "Loading Background Asset",
         "progress": 10
@@ -62,6 +65,7 @@
     {
       "objectName": "Earth",
       "objectType": "planet",
+      "objectNum": 1,
       "objectTexturePath": "src/assets/earth.jpg",
       "objectSize": 1,
       "objectPosition": {
@@ -69,9 +73,101 @@
         "y": 0,
         "z": 0
       },
+      "satelites": [
+        {
+          "objectName": "Axios Station",
+          "sate_id": "1",
+          "objectType": "satelite",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 5,
+            "y": 4,
+            "z": -25
+          }
+        },
+        {
+          "objectName": "Orion Lab",
+          "objectType": "satelite",
+          "sate_id": "2",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 16,
+            "y": -10,
+            "z": -33
+          }
+        },
+        {
+          "objectName": "Atmos Space Resort",
+          "objectType": "satelite",
+          "sate_id": "3",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 5,
+            "y": -20,
+            "z": -30
+          }
+        },
+        {
+          "objectName": "Atmos Space Resort",
+          "objectType": "satelite",
+          "sate_id": "4",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 26,
+            "y": 0,
+            "z": -13
+          }
+        },
+        {
+          "objectName": "Atmos Space Resort",
+          "objectType": "satelite",
+          "sate_id": "5",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 18,
+            "y": -5,
+            "z": -20
+          }
+        },
+        {
+          "objectName": "Atmos Space Resort",
+          "objectType": "satelite",
+          "sate_id": "6",
+          "objectSize": 1,
+          "objectPosition": {
+            "x": 20,
+            "y": 5,
+            "z": -20
+          }
+        }
+      ],
       "copies": {
-        "header": "<h1>Earth</h1>",
-        "description": "<p>Earth is the third planet from the Sun and the only astronomical object known to harbor life. According to radiometric dating and other sources of evidence, Earth formed over 4.5 billion years ago. Earth's gravity interacts with other objects in space, especially the Sun and the Moon, which is Earth's only natural satellite. Earth orbits around the Sun in 365.256 days, a period known as an Earth year. During this time, Earth rotates about its axis about 366.256 times.</p>"
+        "tagline": "Our Home, Our Launchpad",
+        "subtitle": "Where Our Journey Begins",
+        "years": "Since 1976",
+        "call_to_action": "<a href='#'class='link-styled text-light fs-6 pe-all'>Our Earth Orbitals</a>",
+        "overall_introduction_location": "Earth, the cradle of humanity and the springboard for our cosmic ventures, is where Cosmodyn's journey begins. Our stations orbiting Earth represent the cutting edge of human ingenuity and ambition, marking the first steps in our quest to expand human presence across the solar system.",
+        "stations_detail_description": "From the bustling <a class='link-styled inline'>Axios Lab</a>, a hub of innovation and engineering, to the luxurious <a class='link-styled inline'>Arikona Space Resort</a>, where space tourism reaches new heights, and the state-of-the-art <a class='link-styled inline'>Cosmodyn Shipyard</a>, where the vessels of tomorrow are built today, Cosmodyn's Earth stations are at the forefront of our mission to bring the stars closer to humanity."
+      }
+    },
+    {
+      "objectName": "Moon",
+      "objectType": "planet",
+      "objectTexturePath": "src/assets/earth.jpg",
+      "objectSize": 1,
+      "objectNum": 2,
+      "objectPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "copies": {
+        "tagline": "Gateway to Solar System",
+        "subtitle": "Our Lunar Colonies",
+        "years": "2018 - 2031 <small>(Phase 1)</small>",
+        "call_to_action": "<a href='#'class='link-styled text-light fs-6 pe-all'>Traverse Our Lunar Sites</a>",
+        "overall_introduction_location": "<p>The Moon, Earth's closest celestial neighbor, serves as a critical outpost for humanity's expansion into the solar system. Cosmodyn's lunar operations lay the groundwork for sustainable exploration and utilization of space resources.</p>",
+        "stations_detail_description": "The <a class='link-styled inline'>Orion Lunar Satellite Network</a> (OLSN) ensures robust communication across lunar missions, while the <a class='link-styled inline'>Tianmen Hub</a> facilitates seamless travel between Earth and the Moon. Our <a class='link-styled inline'>Radken Mines</a> in Tranqulity Sea pioneers the extraction of essential resources, driving forward our vision of a self-sustaining human presence beyond Earth."
       }
     },
     {
@@ -79,14 +175,42 @@
       "objectType": "planet",
       "objectTexturePath": "src/assets/earth.jpg",
       "objectSize": 1,
+      "objectNum": 0,
       "objectPosition": {
         "x": 18,
         "y": 0,
         "z": 15
       },
       "copies": {
-        "header": "<h1>Earth</h1>",
-        "description": "<p>Earth is the third planet from the Sun and the only astronomical object known to harbor life. According to radiometric dating and other sources of evidence, Earth formed over 4.5 billion years ago. Earth's gravity interacts with other objects in space, especially the Sun and the Moon, which is Earth's only natural satellite. Earth orbits around the Sun in 365.256 days, a period known as an Earth year. During this time, Earth rotates about its axis about 366.256 times.</p>"
+        "tagline": "Proxima Centauri B",
+        "years": "2083 & Beyond",
+        "call_to_action": "<a href='#'class='link-styled text-light fs-6 pe-all'>Our 100 Year Vision</a>",
+        "overall_introduction_location": "Proxima Centauri B represents the pinnacle of Cosmodyn's long-term aspirations. As we set our sights on interstellar travel, our mission is to create a generational ship capable of reaching and sustaining human life in the Proxima Centauri system.",
+        "stations_detail_description": "The Generational Ship project is an audacious leap towards making interstellar colonization a reality. By harnessing cutting-edge technology and pioneering spirit, Cosmodyn aims to extend humanity's reach to the stars, ensuring our species thrives for millennia to come.",
+        "home_page_headline": "A Visionary Leader in Advancing Humanity’s Presence Across the Cosmos.",
+        "home_page_subheadline": "<p>Our 100 Year Vision</p>",
+        "home_page_intro": "Since our inception in 1976, we have pioneered orbital construction technologies and projects aimed at expanding human horizons beyond Earth.</br> </br>Specializing in building space station, transportation, exploration, mining, tourism, and shipbuilding, Cosmodyn is committed to pushing the boundaries of possibility.",
+        "home_page_outtro": "Join us on our journey as we continue to shape the future of space exploration, one mission at a time."
+      }
+    },
+    {
+      "objectName": "Jupiter",
+      "objectType": "planet",
+      "objectTexturePath": "src/assets/earth.jpg",
+      "objectSize": 1,
+      "objectNum": 3,
+      "objectPosition": {
+        "x": 18,
+        "y": 0,
+        "z": 15
+      },
+      "copies": {
+        "tagline": "Furthest Frontier",
+        "years": "2033 - 2045",
+        "subtitle": "Jupiter Ventures: A New Horizon",
+        "call_to_action": "<a href='#'class='link-styled text-light fs-6 pe-all'>Visit Our Jupiter Ventures</a>",
+        "overall_introduction_location": "<p>Jupiter, the giant of our solar system, symbolizes the vast potential and challenges of space exploration. Cosmodyn's operations around Jupiter aim to unlock the secrets of this majestic planet and pave the way for deeper space missions.</p>",
+        "stations_detail_description": "The <a class='link-styled inline'>Aristotle Expedition Base</a> on Europa serves as a critical outpost for exploration and research, while the <a class='link-styled inline'>Juno Probe Fleet</a> provides unparalleled insights into Jupiter's atmosphere and magnetosphere. These initiatives are crucial steps in expanding humanity's understanding and presence in the outer solar system."
       }
     },
     {

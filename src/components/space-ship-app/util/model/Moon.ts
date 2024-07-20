@@ -4,8 +4,12 @@ import MoonNormal from "../../../../asset/moon/moon_normal.jpeg";
 import MoonMetalRoughness from "../../../../asset/moon/moon_metallicRoughness.png";
 import { loadTexture } from '../texture/loadTexture';
 
-export const Moon = async (): Promise<THREE.Mesh> => {
-    const moon = new THREE.SphereGeometry(25, 64, 64);
+export const Moon = async ({
+    Px = 0,
+    Py = 0,
+    Pz = 0,
+}): Promise<THREE.Mesh> => {
+    const moon = new THREE.SphereGeometry(15, 64, 64);
     const moonColor = await loadTexture(MoonColor);
     const moon_normal = await loadTexture(MoonNormal);
     const moon_metalRoughness = await loadTexture(MoonMetalRoughness);
@@ -18,5 +22,6 @@ export const Moon = async (): Promise<THREE.Mesh> => {
         metalness: 0
     });
     const mesh = new THREE.Mesh(moon, material);
+    mesh.position.set(Px, Py, Pz);
     return mesh;
 }

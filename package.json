@@ -23,7 +23,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "webpack serve --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "build:prod": "netlify build",
+    "deploy": "netlify deploy"
   },
   "eslintConfig": {
     "extends": [

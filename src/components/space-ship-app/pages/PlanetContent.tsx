@@ -33,7 +33,7 @@ export default function PlanetContent(props: props) {
           {project.subTitle && (
             <h3 className="hero-sub-title">{project.subTitle}</h3>
           )}
-          <div dangerouslySetInnerHTML={project.description}></div>
+          <div className="dd-html" dangerouslySetInnerHTML={project.description}></div>
         </div>
       ))}
     </>

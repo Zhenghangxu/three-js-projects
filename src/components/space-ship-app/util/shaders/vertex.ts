@@ -13,3 +13,5 @@ void main() {
 
     gl_Position = projectionMatrix * mvPos;
 }`
+
+// credit: https://franky-arkon-digital.medium.com/make-your-own-earth-in-three-js-8b875e281b1e

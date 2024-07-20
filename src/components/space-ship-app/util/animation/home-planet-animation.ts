@@ -1,39 +1,61 @@
 import * as THREE from "three";
 import TWEEN from "@tweenjs/tween.js";
-export const AnimateZMoveHP = (
+
+// Create a common function for all these below
+
+export const AnimateMesh = (
   mesh: THREE.Object3D,
+  type: "rotation" | "position",
   delta: number,
+  delay: number = 0,
+  axis: "x" | "y" | "z",
+  callback?: () => void,
+  isInfinite: boolean = false
+) => {
+  const animation = new TWEEN.Tween(mesh[type])
+    .to(
+      {
+        [axis]: mesh[type][axis] + delta,
+      }
+      // 1100
+    )
+    .delay(delay)
+    .easing(TWEEN.Easing.Cubic.InOut)
+    .repeat(isInfinite ? Infinity : 0)
+    .onComplete(() => {
+      if (callback) {
+        callback();
+      }
+    })
+    .start();
+  return animation;
+};
+
+export const AnimateMeshToPosition = (
+  mesh: THREE.Object3D,
+  delay: number = 0,
+  axis: {
+    Px: number;
+    Py: number;
+    Pz: number;
+  },
   callback?: () => void
 ) => {
   const animation = new TWEEN.Tween(mesh.position)
     .to(
       {
-        z: mesh.position.z + delta,
-      },
-      1100
+        x: axis.Px,
+        y: axis.Py,
+        z: axis.Pz,
+      }
     )
-    //.delay (1000)
+    .delay(delay)
     .easing(TWEEN.Easing.Cubic.InOut)
-    //.onUpdate(() => render())
+    .onComplete(() => {
+      if (callback) {
+        callback();
+      }
+    })
     .start();
   return animation;
 };
-
-export const AnimationRotateY = (
-    mesh: THREE.Object3D,
-    delta: number,
-    callback?: () => void
-  ) => {
-    const animation = new TWEEN.Tween(mesh.rotation)
-      .to(
-        {
-          y: mesh.rotation.y + delta,
-        },
-        1100
-      )
-      //.delay (1000)   
-      .easing(TWEEN.Easing.Cubic.InOut)
-      //.onUpdate(() => render())
-      .start();
-    return animation;
-  };
