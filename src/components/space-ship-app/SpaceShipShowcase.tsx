@@ -476,7 +476,13 @@ export default function SpaceShipShowcase(props: IAppProps) {
                   {activeMesh === 0 ? (
                     <HomeHeader />
                   ) : (
-                    <SectionContent activePlanet={activeMesh} />
+                    <SectionContent
+                      activePlanet={activeMesh}
+                      offset={{
+                        x: mouseMoveCoordinate.x,
+                        y: mouseMoveCoordinate.y,
+                      }}
+                    />
                   )}
                 </div>
               </div>

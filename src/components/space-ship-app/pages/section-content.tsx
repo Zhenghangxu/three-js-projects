@@ -3,24 +3,33 @@ import LargeButton from "../largeButton";
 import UI_DATA from "../UI_DATA.json";
 export interface props {
   activePlanet: number;
+  offset?: { x: number; y: number };
 }
 
-export default function SectionContent({ activePlanet }: props) {
+export default function SectionContent({ activePlanet, offset }: props) {
   const activePlanetObject = UI_DATA["3D"].find(
     (item) => item.objectNum === activePlanet
   );
+  const offsetStyle: any = offset
+    ? {
+        transform: `translate(${(offset.x / Math.abs(offset.x)) * 5}px, ${
+          (offset.y / Math.abs(offset.y)) * 3
+        }px)`,
+        transition: "transform 0.3s",
+      }
+    : null;
   return (
     <>
       <h2 className="text-light text-left mw-20 headline-hero glow-text-weak textured-text mb-5">
         {activePlanetObject?.copies?.tagline}
       </h2>
-      <h3 className="hero-sub-title p-text-regular">
+      <h3 className="hero-sub-title p-text-regular ms-3" style={offsetStyle}>
         <div className="fw-bold fs-3 font-serif off-white">
           {activePlanetObject?.copies?.subtitle}
         </div>
-        <p className="fs-5 mt-3 fw-semibold">
+        <p className="fs-5 mt-3 fw-semibold ms-5">
           <div
-          className="dd-html"
+            className="dd-html"
             dangerouslySetInnerHTML={{
               // eslint-disable-next-line react/no-danger
               __html: activePlanetObject?.copies
