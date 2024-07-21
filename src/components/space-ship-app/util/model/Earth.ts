@@ -1,11 +1,11 @@
 import * as THREE from "three";
 import PlanetBase from "../../../../asset/earth/Earth_baseColor.jpeg";
-import PlanetMetalic from "../../../../asset/earth/Earth_metallicRoughness.png";
-import Normal from "../../../../asset/earth/Earth_normal.png";
+import PlanetMetalic from "../../../../asset/earth/Earth_metallicRoughness.jpeg";
+import Normal from "../../../../asset/earth/Earth_normal.jpeg";
 import Emissive from "../../../../asset/earth/Earth_emissive.jpeg";
 
 // clouds
-import PlanetCloudBase from "../../../../asset/earth/Clouds.png";
+import PlanetCloudBase from "../../../../asset/earth/Clouds.jpeg";
 
 // Shader
 import { vertexShader } from "../shaders/vertex";

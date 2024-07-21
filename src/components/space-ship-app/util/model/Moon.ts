@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import MoonColor from "../../../../asset/moon/moon_baseColor.jpeg";
 import MoonNormal from "../../../../asset/moon/moon_normal.jpeg";
-import MoonMetalRoughness from "../../../../asset/moon/moon_metallicRoughness.png";
+import MoonMetalRoughness from "../../../../asset/moon/moon_metallicRoughness.jpeg";
 import { loadTexture } from '../texture/loadTexture';
 
 export const Moon = async ({
