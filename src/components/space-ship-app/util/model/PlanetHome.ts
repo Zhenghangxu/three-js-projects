@@ -1,11 +1,11 @@
 import * as THREE from "three";
 import PlanetBase from "../../../../asset/continental/Planet_continental_baseColor.jpeg";
 import PlanetMetalic from "../../../../asset/continental/Planet_continental_metallicRoughness.png";
-import PlanetNormal from "../../../../asset/continental/Planet_continental_normal.png";
+import PlanetNormal from "../../../../asset/continental/Planet_continental_normal.jpeg";
 
 // clouds
 import PlanetCloudBase from "../../../../asset/continental/planet_continental_cloud_baseColor.png";
-import PlanetCloudNormal from "../../../../asset/continental/planet_continental_cloud_normal.png";
+import PlanetCloudNormal from "../../../../asset/continental/planet_continental_cloud_normal.jpeg";
 
 // Shader
 import { vertexShader } from "../shaders/vertex";
